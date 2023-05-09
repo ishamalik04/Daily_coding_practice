@@ -1,2 +1,3 @@
 # Daily_coding_practice
 This repository will contain coding questions which i'll practice on regular basis. 
+Mostly questions are from leetcode problem.
