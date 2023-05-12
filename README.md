@@ -3,7 +3,5 @@ This repository will contain coding questions which i'll practice on regular bas
 
 
 
-ng_practice
-This repository will contain coding questions which i'll practice on regular basis. 
 
 
