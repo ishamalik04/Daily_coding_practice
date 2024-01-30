@@ -1,1 +1,133 @@
+//implement 2 stack in an array
 
+#include <iostream>
+#include<bits/stdc++.h>
+
+using namespace std;
+
+class Stack{
+    public:
+    int *arr;
+    int top1;
+    int top2;
+    int size;
+    
+    Stack(int size)
+    {
+        this->size=size;
+        arr=new int [size];
+        top1=-1;
+        top2=size;
+    }
+    
+    void push1(int element)
+    {
+        if(top2-top1 >1)
+        {
+            top1++;
+            arr[top1]=element;
+        }
+        else
+        {
+            cout<<"stack overflow"<<endl;
+        }
+    }
+    void push2(int element)
+    {
+        if(top2-top1 >1)
+        {
+            top2--;
+            arr[top2]=element;
+        }
+        else
+        {
+            cout<<"stack overflow"<<endl;
+        }
+    }
+    
+    void pop1()
+    {
+        if(top1>=0)
+        {
+            top1--;
+        }
+        else
+        {
+            cout<<"stack underflow"<<endl;
+        }
+    }
+    void pop2()
+    {
+        if(top2<size)
+        {
+            top2++;
+        }
+        else
+        {
+            cout<<"stack underflow"<<endl;
+        }
+    }
+    int peek1()
+    {
+        if(top1>=0 && top1<size)
+        {
+            return arr[top1];
+        }
+        else{
+            cout<<"stack empty"<<endl;
+            return -1;
+        }
+    }
+    int peek2()
+    {
+        if(top2<size && top2>=0)
+        {
+            return arr[top2];
+        }
+        else{
+            cout<<"stack empty"<<endl;
+            return -1;
+        }
+    }
+    
+    bool isEmpty1()
+    {
+        if(top1==-1)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    bool isEmpty2()
+    {
+        if(top2==size)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+};
+
+
+int main()
+{
+    Stack st(5);
+    st.push1(7);
+    int peek=st.peek1();
+    cout<<"peek1 element is "<<peek<<endl;
+    st.pop1();
+    st.push2(10);
+    peek=st.peek2();
+     cout<<"peek2 element is "<<peek<<endl;
+    st.push1(15);
+     st.pop1();
+     peek=st.peek1();
+     cout<<"peek element is "<<peek<<endl;
+    st.push2(20);
+
+    return 0;
+}
