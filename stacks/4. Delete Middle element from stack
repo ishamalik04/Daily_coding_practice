@@ -1,0 +1,23 @@
+//delete middle element from stack
+
+#include<bits/stdc++.h>
+
+void solve(stack<int>&st,int count,int size)
+{
+    if(count==size/2)
+    {
+        st.pop();
+        return;
+    }
+    int num=st.top();
+    st.pop();
+    //recursive call
+    solve(st,count+1,size);
+    st.push(num);
+}
+
+void deleteMiddleElement(stack<int>&st,int N)
+{
+    int count=0;
+    solve(st,count,N);
+}
