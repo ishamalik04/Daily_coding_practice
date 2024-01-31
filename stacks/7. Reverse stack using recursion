@@ -1,0 +1,32 @@
+//reverse a stack using recursion
+
+#include<bits/stdc++.h>
+
+void insertAtBottom(stack<int>&st,int x)
+{
+    if(st.empty())
+    {
+        st.push(x);
+        return;
+    }
+    int num=st.top();
+    st.pop();
+    //recursive call
+    solve(st,x);
+    s.push(num);
+}
+
+void reverseStack(stack<int>&st)
+{
+    if(st.empty())
+    {
+        return;
+    }
+    int num=st.top();
+    st.pop();
+    
+    //recursive call
+    
+    reverseStack(st);
+    insertAtBottom(st,num);
+}
