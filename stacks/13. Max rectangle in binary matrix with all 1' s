@@ -1,0 +1,89 @@
+//max rectangle in binary matrix with all 1' s 
+
+#include<bits/stdc++.h>
+/* algo 
+-> compute max area for 1st row 
+-> for every remaining rows 
+     -> add upper row element in current row  
+->compute area */
+
+class Solution {
+  public:
+   vector<int>prevSmallerElement(vector<int>&heights,int n);
+    {
+        stack<int>st;
+        st.push(-1);
+        vector<int>ans(n);
+        for(int i=0;i<n-1;i++)
+        {
+            int curr=heights[i];
+            while(st.top() >=curr)
+            {
+                st.pop();
+            }
+            ans[i]=st.top();
+            st.push(i);
+        }
+        return ans;
+    }
+    vector<int>nextSmallerElement(vector<int>&heights,int n);
+    {
+        stack<int>st;
+        st.push(-1);
+        vector<int>ans(n);
+        for(int i=n-1;i>=0;i--)
+        {
+            int curr=heights[i];
+            while(st.top() >=curr)
+            {
+                st.pop();
+            }
+            ans[i]=st.top();
+            st.push(i);
+        }
+        return ans;
+    }
+    
+    int largestRectArea(vector<int>&heights)
+    {
+        int n=heights.size();
+        vector<int>next(n);
+        next=nextSmallerElement(heights,n);
+        vector<int>prev(n);
+        prev=prevSmallerElement(heights,n);
+        int area=INT_MIN;
+        for(int i=0;i<n;i++)
+        {
+            int l=heights[i];
+            if(next[i]==-1)
+            {
+                next[i]=n;
+            }
+            int b=next[i]-prev[i]-1;
+            int newArea=max(area,newArea);
+        }
+        return area;
+    }
+   int maxArea(int M[MAX][MAX],int n,int m)
+  {
+      //compute area for first row
+      int area=largestRectArea(M[0],m);
+      //step 2. 
+      for(int i=1;i<n;i++)
+      {
+          for(int j=0;j<m;j++)
+          {
+            if(M[i][j]!=0)
+            {
+                M[i][j]=M[i][j]+M[i-1][j];
+            }
+            else
+            {
+                M[i][j]=0;
+            }
+          }
+          area=max(area,largestRectArea(M[i],m));
+      }
+      return area;
+  }
+};
