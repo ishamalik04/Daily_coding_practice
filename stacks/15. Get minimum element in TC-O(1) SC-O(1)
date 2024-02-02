@@ -1,0 +1,86 @@
+//get minimum element in TC-O(1) SC-O(1)
+#include<bits/stdc++.h>
+
+class SpecialStack{
+    stack<int>st;
+    int mini;
+    public:
+    void push(int data)
+    {
+        if(st.empty())
+        {
+            st.push(data);
+            mini=data;
+        }
+        else
+        {
+            if(data<mini)
+            {
+                int val=2*data-mini;
+                st.push(val);
+                mini=data;
+            }
+            else
+            {
+                st.push(data);
+            }
+        }
+    }
+    
+    int pop()
+    {
+        if(st.empty())
+        {
+            return -1;
+        }
+        int curr=st.top();
+        st.pop();
+        if(curr>mini)
+        {
+            return curr;
+        }
+        else
+        {
+            int premin=mini;
+            int val=2*mini-curr;
+            mini=val;
+            return premin;
+        }
+    }
+    
+    int top()
+    {
+        if(st.empty())
+        {
+            return -1;
+        }
+        int curr=st.top();
+        if(curr<mini)
+        {
+            return mini;
+        }
+        else
+        {
+            return curr;
+        }
+    }
+    
+    int getMin()
+    {
+        if(st.empty())
+        {
+            return -1;
+        }
+        return mini;
+    }
+};
+
+
+
+
+
+
+
+
+
+
