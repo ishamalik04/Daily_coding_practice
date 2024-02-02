@@ -1,0 +1,82 @@
+//celebrity problem
+//everyone knows celebrity
+//celebrity knows no one
+
+#include<bits/stdc++.h>
+class Solution{
+    public:
+    bool knows(vector<vector<int>>&M,int a,int b,int n)
+    {
+        if (M[a][b]==1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    int celebrity(vector<vector<int>>&M,int n)
+    {
+        stack<int>st;
+        //step1. push all elements in stack
+        for(int i=0;i<n;i++)
+        {
+            st.push(i);
+        }
+        //step2.
+        while(st.size()>1)
+        {
+            int a=st.top();
+            st.pop();
+            int b=st.top();
+            st.pop();
+            if(knows(M,a,b,n))
+            {
+                st.push(b);
+            }
+            else
+            {
+                st.push(a);
+            }
+        }
+        //step.. single element in stack is potential candidate
+        int candidate=st.top();
+        int zeroCount=0;
+        //row check
+        for(int i=0;i<n;i++)
+        {
+            if(M[candidate][i]==0)
+            {
+                zeroCount++;
+            }
+        }
+        if(zeroCount!=n)
+        {
+            return -1;
+        }
+        //column check
+        int oneCount=0;
+        for(int i=0;i<n;i++)
+        {
+            if(M[i][candidate]==1)
+            {
+                oneCount++;
+            }
+        }
+        if(oneCount!=n-1)
+        {
+            return -1;
+        }
+        return candidate;
+    }
+};
+
+
+
+
+
+
+
+
