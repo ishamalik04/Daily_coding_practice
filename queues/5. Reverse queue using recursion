@@ -1,0 +1,23 @@
+class Solution
+{
+    public:
+    void reverseq(queue<int>&q)
+    {
+        if(q.size()==0)
+        {
+            return;
+        }
+        int x=q.front();
+        q.pop();
+        
+        //recursive call
+        
+        reverseq(q);
+        q.push(x);
+    }
+    queue<int> rev(queue<int> q)
+    {
+       reverseq(q);
+       return q;
+    }
+};
