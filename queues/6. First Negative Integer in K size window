@@ -2,7 +2,7 @@
 
 vector<long long> printFirstNegative(long long int A[],long long int N,long long int k)
 {
-    dequeue<long long int>dq;
+    deque<long long int>dq;
     vector<long long>ans;
     
     //processing first window of k size
