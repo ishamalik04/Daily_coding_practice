@@ -1,0 +1,98 @@
+// k queues in an array
+#include<bits/stdc++.h>
+using namespace std;
+
+class KQueue{
+    public:
+    int n,k,*front,*rear,*arr,*next,freespot;
+    KQueue(int n,int k)
+    {
+        this->n=n;
+        this->k=k;
+        front=new int[k];
+        rear=new int[k];
+        for(int i=0;i<k;i++)
+        {
+            front[i]=-1;
+            rear[i]=-1;
+        }
+        next=new int[n];
+        for(int i=0;i<n;i++)
+        {
+            next[i]=i+1;
+        }
+        next[n-1]=-1;
+        arr=new int[n];
+        freespot=0;
+    }
+    
+    void enqueue(int data,int qn)
+    {
+        //overflow 
+        if(freespot==-1)
+        {
+            cout<<"overflow"<<endl;
+            return;
+        }
+        
+        //finding first free index 
+        int index=freespot;
+        
+        //updating freespot
+        freespot=next[index];
+        
+        //checking whether it is first element 
+        if(front[qn-1]==-1)
+        {
+            front[qn-1]=index;
+        }
+        else
+        {
+            //link new element to prev element
+            next[rear[qn-1]]=index;
+        }
+        
+        //updating next 
+        next[index]=-1;
+        
+        //updating rear
+        rear[qn-1]=index;
+        
+        //pushing element
+        arr[index]=data;
+    }
+    
+    int dequeue(int qn)
+    {
+        //underflow condition 
+        if(front[qn-1]==-1)
+        {
+            cout<<"queue underflow"<<endl;
+            return -1;
+        }
+        
+        //finding index to pop
+        int index=front[qn-1];
+        
+        //updating front 
+        front[qn-1]=next[index];
+        
+        //managing freespot
+        next[index]=freespot;
+        freespot=index;
+        return arr[index];
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
