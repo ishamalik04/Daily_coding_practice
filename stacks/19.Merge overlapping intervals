@@ -1,0 +1,68 @@
+// merge overlapping intervals 
+#include<bits/stdc++.h>
+using namespace std; 
+
+vector<vector<int>> overlapIntervals(vector<vector<int>>&intervals)
+{
+    if(intervals.empty())
+    {
+        return vector<vector<int>>();
+    }
+    
+    //sorting the intervals based on start values 
+    sort(intervals.begin(),intervals.end(),[](const vector<int>&a,const vector<int>&b){
+        return a[0]<b[0];
+    });
+    
+    stack<vector<int>>mergeStack;
+    mergeStack.push(intervals[0]);
+    
+    for(int i=1;i<intervals.size();i++)
+    {
+        vector<int>current=intervals[i];
+        vector<int>& top=mergeStack.top();
+        
+        if(current[0] <= top[1])
+        {
+            // if overlaps,merge them
+            top[1]=max(top[1],current[1]);
+        }
+        else
+        {
+            //if no overlap,push onto stack
+            mergeStack.push(current);
+        }
+    }
+    
+    //converting the stack to a vector 
+    vector<vector<int>>mergedIntervals;
+    while(!mergeStack.empty())
+    {
+        mergedIntervals.insert(mergedIntervals.begin(),mergeStack.top());
+        mergeStack.pop();
+    }
+    return mergedIntervals;
+}
+
+int main()
+{
+     vector<vector<int>> intervals = {{6, 8}, {1, 9}, {2, 4}, {4, 7}};
+    vector<vector<int>> merged = overlapIntervals(intervals);
+ 
+    cout << "The Merged Intervals are: ";
+    for (const vector<int>& interval : merged) {
+        cout << "[" << interval[0] << ", " << interval[1] << "] ";
+    }
+    cout << endl;
+ 
+    return 0;
+}
+
+
+
+
+
+
+
+
+
