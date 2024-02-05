@@ -1,0 +1,99 @@
+// length of longest valid substring 
+#include<bits/stdc++.h>
+using namespace std; 
+
+int findMaxLen(string str)
+{
+    int n=str.length();
+    stack<int>st;
+    st.push(-1);
+    int ans=0;
+    
+    //traversing string 
+    for(int i=0;i<n;i++)
+    {
+        //push opening bracket index 
+        if(str[i]=='(')
+        {
+            st.push(i);
+        }
+        //if closing bracket 
+        else
+        {
+            //popping previous opening bracket's index
+            if(!st.empty())
+            {
+                st.pop();
+            }
+            
+            if(!st.empty())
+            {
+                ans=max(ans,i-st.top());
+            }
+            else
+            {
+                st.push(i);
+            }
+        }
+    }
+    return ans;
+}
+// space optimised function -SC-O(1)
+int solve(string s)
+{
+    int n=s.length();
+    int left=0,right=0,ans=0,t=2;
+    while(t--)
+    {
+        left=0;
+        right=0;
+        for(int i=0;i<n;i++)
+        {
+            if(s[i]=='(')
+            {
+                left++;
+            }
+            else
+            {
+                right++;
+            }
+            
+            if(left==right)
+            {
+                ans=max(ans,2*left);
+            }
+            //traversing from 0 to n-1
+            if(t%2==1 && right>left)
+            {
+                left=0;
+                right=0;
+            }
+            //traversing from n-1 to 0
+            if(t%2==0 && left>right)
+            {
+                left=0;
+                right=0;
+            }
+        }
+        //to iterate from right to left
+        reverse(s.begin(),s.end());
+    }
+    return ans;
+}
+
+
+
+int main()
+{
+    string str = "((()()";
+   
+    // Function call
+    cout << solve(str) << endl;
+ 
+    str = "()(()))))";
+   
+    // Function call
+    cout << solve(str) << endl;
+ 
+    return 0;
+}
