@@ -1,1 +1,29 @@
+// stack using deque
+#include<bits/stdc++.h>
+using namespace std; 
+ deque<int>dq;
+void push(int x)
+{
+    dq.push_back(x);
+}
 
+void pop()
+{
+    dq.pop_back();
+}
+
+int main()
+{
+    push(2);
+    push(3);
+    pop();
+    pop();
+    push(1);
+    push(10);
+    while(!dq.empty())
+    {
+        cout<<dq.front()<<" "<<endl;
+        dq.pop_front();
+    }
+    return 0;
+}
