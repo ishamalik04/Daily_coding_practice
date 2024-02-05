@@ -1,0 +1,119 @@
+// converting infix expression to postfix expression 
+#include<bits/stdc++.h>
+using namespace std;
+
+//function to calculate precedence of operators
+int prec(char c)
+{
+    if(c=='^')
+    {
+        return 3;
+    }
+    else if(c=='/' || c=='*')
+    {
+        return 2;
+    }
+    else if(c=='+' || c=='-')
+    {
+        return 1;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+//function to calculate associativity of operators
+
+char associativity(char c)
+{
+    if(c=='^')
+    {
+        return 'R';
+    }
+    return 'L';
+}
+
+void infixToPostfix(string s)
+{
+    stack<char>st;
+    string result;
+    
+    for(int i=0;i<s.length();i++)
+    {
+        char c=s[i];
+        
+        //if character is an operand , push it to stack 
+        if((c>='a' && c<='z') || (c>='A' && c<='Z') || (c>='0' && c<='9'))
+        {
+            result+=c;
+        }
+        
+        //if character is '(' , push it to stack 
+        else if(c=='(')
+        {
+            st.push('(');
+        }
+        
+        //if character is ')' ,pop and add to result until '(' comes 
+        else if(c==')')
+        {
+            while(st.top()!='(')
+            {
+                result+=st.top();
+                st.pop();
+            }
+            st.pop();
+        }
+        //if operator is scanned
+        else
+        {
+            while(!st.empty() && prec(s[i])<prec(st.top()) || !st.empty() && prec(s[i])==prec(st.top())   &&
+                   associativity(s[i]) == 'L' )
+                   {
+                       result+=st.top();
+                       st.pop();
+                   }
+                   st.push(c);
+        }
+    }
+    
+    //popping out all remaing elements from stack 
+    while(!st.empty())
+    {
+        result+=st.top();
+        st.pop();
+    }
+    cout<<result<<endl;
+}
+int main()
+{
+    string expr="a+b*(c^d-e)^(f+g*h)-i";
+    infixToPostfix(expr);
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
