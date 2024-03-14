@@ -1,0 +1,56 @@
+Problem statement
+You are given a sorted integer array 'arr' of size 'n'.
+
+
+
+You need to remove the duplicates from the array such that each element appears only once.
+
+
+
+Return the length of this new array.
+
+
+
+Note:
+Do not allocate extra space for another array. You need to do this by modifying the given input array in place with O(1) extra memory. 
+
+
+For example:
+'n' = 5, 'arr' = [1 2 2 2 3].
+The new array will be [1 2 3].
+So our answer is 3.
+
+
+
+#include<bits/stdc++.h>
+int removeDuplicates(vector<int> &arr, int n) {
+	// Write your code here.
+	/* Brute Force
+	   
+	   Time Complexity: O(nlogn)
+	   Space Complexity: O(n)
+	
+	set<int> st;
+	for(int i=0;i<n;i++)
+	{
+		st.insert(arr[i]);
+	}
+	int index=0;
+	int size=st.size();
+	return size;*/
+
+	/* Optimal Approach  
+	   Time Complexity: O(N)
+	   Space Complexity: O(1)
+	*/
+	int i=0;
+	for(int j=1;j<n;j++)
+	{
+		if(arr[i]!=arr[j])
+		{
+			arr[i+1]=arr[j];
+			i++;
+		}
+	}
+	return i+1;
+}
