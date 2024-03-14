@@ -1,0 +1,62 @@
+Problem statement
+You have been given an array ‘a’ of ‘n’ unique non-negative integers.
+
+
+
+Find the second largest and second smallest element from the array.
+
+
+
+Return the two elements (second largest and second smallest) as another array of size 2.
+
+
+
+Example :
+Input: ‘n’ = 5, ‘a’ = [1, 2, 3, 4, 5]
+Output: [4, 2]
+
+The second largest element after 5 is 4, and the second smallest element after 1 is 2.
+
+
+int secondLarge(vector<int>&a,int n){
+    int largest=a[0];
+    int secondLargest=-1;
+    for(int i=1;i<n;i++){
+        if(a[i]>largest){
+            secondLargest=largest;
+            largest=a[i];
+        }
+        else if (a[i]<largest && a[i]>secondLargest){
+            secondLargest=a[i];
+        }
+    }
+    return secondLargest;
+}
+int secondSmall(vector<int>&a,int n){
+    int smallest=a[0];
+    int secondsmallest=INT_MAX;
+    for(int i=1;i<n;i++){
+        if(a[i]<smallest){
+            secondsmallest=smallest;
+            smallest=a[i];
+        }
+        else if (a[i]>smallest && a[i]<secondsmallest){
+            secondsmallest=a[i];
+        }
+    }
+    return secondsmallest;
+}
+
+vector<int> getSecondOrderElements(int n, vector<int> a) {
+
+      int slargest=secondLarge(a,n);
+      int ssmallest=secondSmall(a,n);
+      vector<int>ans;
+      ans.push_back(slargest);
+      ans.push_back(ssmallest);
+      return ans;
+}
+
+
+// Time Complexity - O(N)
+// Space Complexity -O(1)
