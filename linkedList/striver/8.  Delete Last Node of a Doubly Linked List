@@ -1,0 +1,44 @@
+Problem statement
+A doubly-linked list is a data structure that consists of sequentially linked nodes, and the nodes have reference to both the previous and the next nodes in the sequence of nodes.
+Given a doubly-linked list, delete the node at the end of the doubly linked list.
+
+Note:
+You need not print anything. You’re given the head of the linked list, just return the head of the modified list.
+Example:
+Input: Linked List:  4 <-> 10 <-> 3 <-> 5 <-> 20
+
+Output: Modified Linked List: 4 <-> 10 <-> 3 <-> 5
+
+/**
+ * Definition of doubly linked list:
+ *
+ * struct Node {
+ *      int data;
+ *      Node *prev;
+ *      Node *next;
+ *      Node() : data(0), prev(nullptr), next(nullptr) {}
+ *      Node(int val) : data(val), prev(nullptr), next(nullptr) {}
+ *      Node(int val, Node *p, Node *n) : data(val), prev(p), next(n) {}
+ * };
+ *
+ *************************************************************************/
+
+Node * deleteLastNode(Node *head) {
+    // Write your code here
+    if(head->next==nullptr){
+        return nullptr;
+    }
+    Node*temp=head;
+    Node*prev;
+    while(temp->next!=nullptr){
+        prev=temp;
+        temp=temp->next;
+    }
+    prev->next=nullptr;
+    temp->prev=nullptr;
+    return head;
+
+}
+
+Time Complexity - O(N)
+Space Complexity - O(1)
