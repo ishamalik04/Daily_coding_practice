@@ -1,0 +1,35 @@
+Problem statement
+A doubly-linked list is a data structure that consists of sequentially linked nodes, and the nodes have reference to both the previous and the next nodes in the sequence of nodes.
+
+You’re given a doubly-linked list and a key 'k'.
+
+Delete all the nodes having data equal to ‘k’.
+
+Example:
+Input: Linked List: 10 <-> 4 <-> 10 <-> 3 <-> 5 <-> 20 <-> 10 and ‘k’ = 10
+
+Output: Modified Linked List: 4 <-> 3 <-> 5 <-> 20
+
+Node * deleteAllOccurrences(Node* head, int k) {
+    Node*temp=head;
+    while(temp){
+        if(temp->data==k){
+            Node*del=temp;
+            if(temp->prev){
+                temp->prev->next=temp->next;
+            }
+            if(temp->next){
+                temp->next->prev=temp->prev;
+            }
+            if(temp==head){
+                head=temp->next;
+            }
+            free(del);
+        }
+        temp=temp->next;
+
+    }
+    return head;
+}
+Time Complexity - O(N)
+Space Complexity - O(1)
