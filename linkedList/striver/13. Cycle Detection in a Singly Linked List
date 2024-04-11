@@ -1,0 +1,40 @@
+Problem statement
+You are given a Singly Linked List of integers. Return true if it has a cycle, else return false.
+A cycle occurs when a node's next points back to a previous node in the list.
+
+
+//Approach 1. Brute Force 
+// Time Complexity - O(N*2*LogN)
+// Space Complexity - O(N)
+/*bool detectCycle(Node *head)
+{
+	//	Write your code here
+    if(head==NULL) return NULL;
+    unordered_map<Node*,int>vis;
+    Node*temp=head;
+    while(temp!=NULL){
+        if(vis[temp]==true){
+            return true;
+        }
+        vis[temp]=true;
+        temp=temp->next;
+    }
+    return false;
+    
+}*/
+// Approach 2.
+// Time Complexity - O(N)
+// Space Complexity - O(1)
+bool detectCycle(Node *head) 
+{
+    Node*fast=head;
+    Node*slow=head;
+    while(fast && fast->next){
+        fast=fast->next->next;
+        slow=slow->next;
+        if(slow==fast){
+            return true;
+        }
+    }
+    return false; 
+}
