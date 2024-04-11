@@ -1,0 +1,28 @@
+Problem statement
+You are given a Singly Linked List of integers. You need to reverse the Linked List by changing the links between nodes.
+Example:
+
+Input:
+2 4 5 -1
+
+Output:
+5 4 2 -1
+
+Explanation: 2->4->5 is the initial linked list. If we reverse this, we get 5->4->2
+
+Node* reverseLinkedList(Node *head)
+{
+    // Write your code here
+    if(head==NULL || head->next==NULL) return head;
+    Node*forward=NULL,*pre=NULL,*current=head;
+    while(current!=NULL){
+        forward=current->next;
+        current->next=pre;
+        pre=current;
+        current=forward;
+    }
+    return pre;
+}
+
+Time complexity - O(N)
+Space Complexity - O(1)
