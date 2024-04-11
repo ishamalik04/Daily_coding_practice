@@ -1,0 +1,32 @@
+Problem statement
+You're given a positive integer represented in the form of a singly linked-list of digits. The length of the number is 'n'.
+Add 1 to the number, i.e., increment the given number by one.
+The digits are stored such that the most significant digit is at the head of the linked list and the least significant digit is at the tail of the linked list.
+Example:
+Input: Initial Linked List: 1 -> 5 -> 2
+
+Output: Modified Linked List: 1 -> 5 -> 3
+
+void recurse(Node*head,int &carry){
+     if(head==NULL) return;
+     recurse(head->next,carry);
+     if(carry!=0){
+         head->data+=carry;
+         carry=head->data/10;
+         head->data%=10;
+     }
+ }
+
+Node *addOne(Node *head)
+{
+    int carry=1;
+    recurse(head, carry);
+    if(carry!=0){
+        Node*temp=new Node(carry,head);
+        head=temp;
+    }
+    return head;
+}
+
+Time Complexity - O(N)
+Space Complexity - O(1)
