@@ -1,0 +1,25 @@
+Problem statement
+You are given two Singly Linked Lists of integers, which may have an intersection point.
+
+Your task is to return the first intersection node. If there is no intersection, return NULL.
+
+Example:-
+The Linked Lists, where a1, a2, c1, c2, c3 is the first linked list and b1, b2, b3, c1, c2, c3 is the second linked list, merging at node c1.
+
+Node* findIntersection(Node *firstHead, Node *secondHead)
+{
+    if(firstHead==NULL || secondHead==NULL){
+        return NULL;
+    }
+
+    Node*a=firstHead;
+    Node*b=secondHead;
+    while(a!=b){
+        a=a==NULL?secondHead:a->next;
+        b=b==NULL?firstHead:b->next;
+    }
+    return a;
+}
+
+Time Complexity - O(2M)
+Space Complexity - O(1)
