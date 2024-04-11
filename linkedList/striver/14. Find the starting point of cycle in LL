@@ -1,0 +1,33 @@
+Problem statement
+You are given a singly linked list that may or may not contain a cycle. You are supposed to return the node where the cycle begins, if a cycle exists, else return 'NULL'.
+
+A cycle occurs when a node's next pointer returns to a previous node in the list.
+
+Node* floyd(Node*head){
+    Node*fast=head;
+    Node*slow=head;
+    while(fast && fast->next){
+        fast=fast->next->next;
+        slow=slow->next;
+        if(slow==fast){
+            return slow;
+        }
+    }
+    return NULL; 
+}
+Node *firstNode(Node *head)
+{
+    //    Write your code here.
+    if(head==NULL) return NULL;
+    Node*intersection=floyd(head);
+    if(intersection==NULL) return NULL;
+    Node*slow=head;
+    while(slow!=intersection){
+        slow=slow->next;
+        intersection=intersection->next;
+    }
+    return slow;
+}
+
+// Time Complexity - O(N)
+// Space Complexity - O(1)
