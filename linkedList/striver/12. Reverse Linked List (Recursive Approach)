@@ -1,0 +1,20 @@
+Node* reverseLinkedList(Node *head)
+{
+   Node* current=head;
+    Node* prev=NULL;
+    reverse(head,current,prev);
+    return head;
+}
+
+void reverse(Node* &head,Node*curr,Node*prev){
+    if(curr==NULL){
+        head=prev;
+        return;
+    }
+    Node*forward=curr->next;
+    reverse(head,forward,curr);
+    curr->next=prev;
+}
+
+Time Complexity - O(N)
+Space Complexity - O(1)
