@@ -1,0 +1,54 @@
+Problem statement
+You are given the head node of a singly linked list 'head'. Your task is to modify the linked list in such a way that all the even valued nodes
+appear before the all odd valued node and order of nodes remain the same.
+
+Sample Input 1
+2 1 3 5 6 4 7 -1
+Sample Output 1
+2 6 4 1 3 5 7
+
+
+Node* segregateEvenOdd(Node* head)
+{
+    if(!head || !head->next){
+        return head;
+    }
+    Node* oddHead=new Node();
+    Node* evenHead=new Node();
+    Node* oddTail=oddHead;
+    Node*evenTail=evenHead;
+
+    Node*current=head;
+    while(current!=nullptr){
+        if(current->data%2!=0){
+            oddTail->next=current;
+            oddTail=oddTail->next;
+        }
+        else{
+            evenTail->next=current;
+            evenTail=evenTail->next;
+        }
+        current=current->next;
+    }
+
+    oddTail->next=nullptr;
+    evenTail->next=nullptr;
+
+    if(evenHead->next ==nullptr){
+        delete evenHead;
+        return oddHead->next;
+    }
+    else if(oddHead->next ==nullptr){
+        delete oddHead;
+        return evenHead->next;
+    }
+    else{
+        evenTail->next=oddHead->next;
+        delete  oddHead;
+        return evenHead->next;
+    }
+}
+
+
+Time Complexity - O(N)
+Space Complexity - O(1)
