@@ -1,0 +1,38 @@
+Problem statement
+A doubly-linked list is a data structure that consists of sequentially linked nodes, and the nodes have reference to both the previous and the next nodes in the sequence of nodes.
+You are given a sorted doubly linked list of size 'n', consisting of distinct positive integers, and a number 'k'.
+
+Find out all the pairs in the doubly linked list with sum equal to 'k'.
+Example :
+Input: Linked List: 1 <-> 2 <-> 3 <-> 4 <-> 9 and 'k' = 5
+
+Output: (1, 4) and (2, 3)
+
+vector<pair<int, int>> findPairs(Node* head, int k)
+{
+    vector<pair<int,int>>v;
+    Node*left=head;
+    Node*right=head;
+    while(right->next!=NULL){
+        right=right->next;
+    }
+    while(left!=NULL && right!=NULL && left->data < right->data){
+        if(left->data+right->data == k){
+            v.push_back({left->data,right->data});
+            right=right->prev;
+            left=left->next;
+        }
+        else if(left->data+right->data > k){
+            right=right->prev;
+        }
+        else{
+            
+                left=left->next;
+            
+        }
+    }
+    return v;
+}
+
+Time Compexity - O(N)
+Space Complexity - O(1)
