@@ -1,0 +1,74 @@
+Problem statement
+You are given a linked list containing 'n' nodes, where every node in the linked list contains two pointers:
+(1) ‘next’ which points to the next node in the list
+
+(2) ‘random’ which points to a random node in the list or 'null'.
+Your task is to create a 'deep copy' of the given linked list and return its head.
+
+Note:
+A 'deep copy' of a linked list means we do not copy the references of the nodes of the original linked list, 
+rather for each node in the original linked list, a new node is created.
+
+void insertAtTail(Node* &head,Node* &tail,int d){
+	 Node*newNode=new Node(d);
+	 if(head==NULL){
+		 head=newNode;
+		 tail=newNode;
+	 }else{
+		 tail->next=newNode;
+		 tail=newNode;
+	 }
+ }
+
+Node *cloneLL(Node *head){
+	// step1. creating a clone list 
+     Node* cloneHead=NULL;
+	 Node* cloneTail=NULL;
+	 Node*temp=head;
+	 while(temp!=NULL){
+          insertAtTail(cloneHead,cloneTail, temp->data);
+		  temp=temp->next;
+	 }
+
+	//  step2. adding cloneNodes in between original list 
+	Node* originalNode=head;
+	Node* cloneNode=cloneHead;
+    
+	while(originalNode!=NULL && cloneNode!=NULL){
+		Node*next=originalNode->next;
+		originalNode->next=cloneNode;
+		originalNode=next;
+		next=cloneNode->next;
+		cloneNode->next=originalNode;
+		cloneNode=next;
+	}
+
+	// step3. copying random pointer 
+	temp=head;
+	while(temp!=NULL){
+		if(temp->next!=NULL){
+			if(temp->random!=NULL){
+				temp->next->random=temp->random->next;
+			}
+		}
+		temp=temp->next;
+	}
+
+	// step4. revert changes done in step4
+    originalNode=head;
+	cloneNode=cloneHead;
+	while(originalNode!=NULL && cloneNode!=NULL){
+		originalNode->next=cloneNode->next;
+		originalNode=originalNode->next;
+		if(originalNode!=NULL){
+			cloneNode->next=originalNode->next;
+			cloneNode=cloneNode->next;
+		}
+	}
+	return cloneHead;
+
+}
+
+
+Time complexity - O(N)
+Space Complexity - O(1)
