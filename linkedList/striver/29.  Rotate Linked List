@@ -1,0 +1,39 @@
+Problem statement
+You are given a linked list having ‘n’ nodes and an integer ‘k’.
+You have to rotate the linked list to the right by ‘k’ positions .
+Example :
+Input: linked list = [1 2 3 4] , k = 2
+
+Output: 3 4 1 2
+
+Explanation:
+We have to rotate the given linked list to the right 2 times. After rotating it to the right once it becomes 4->1->2->3. 
+After rotating it to the right again, it becomes 3->4->1->2.
+
+Node *rotate(Node *head, int k) {
+     if(!head || head->next==NULL || k==0){
+          return head;
+     }
+     // computing length
+     Node*current=head;
+     int length=1;
+     while(current->next!=NULL){
+          length++;
+          current=current->next;
+     }
+     // going to the node 
+     current->next=head;
+     k=k%length;
+     k=length-k;
+     while(k--){
+          current=current->next;
+     }
+     // making the node head and breaking the connection
+     head=current->next;
+     current->next=NULL;
+     return head;
+}
+
+
+Time Complexity - O(N)
+Space Complexity - O(1)
