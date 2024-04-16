@@ -1,0 +1,37 @@
+Problem statement
+For a given integer 'N', you have to return the number of set bits in the binary representation of the numbers from 1 to 'N'.
+In a binary number '1' is considered as a set bit and '0' as not set.
+
+
+
+Example:
+If 'N' is 4, then
+
+1 has a binary representation of 1
+2 has a binary representation of 10
+3 has a binary representation of 11
+4 has a binary representation of 100
+
+Hence number of set bits is 5.
+
+int count(int n){
+    int count=0;
+        while(n!=0){
+         if(n&1==1){
+             count++;
+         }
+         n=n>>1;
+       }
+       return count;
+}
+
+int countSetBits(int N)
+{
+    int ans=0;
+    for(int i=1;i<=N;i++)
+    {
+        
+       ans += count(i);
+    }
+    return ans;
+}
