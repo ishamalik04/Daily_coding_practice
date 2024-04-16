@@ -1,0 +1,21 @@
+Problem statement
+You are given an integer 'N'.
+Return 'odd' if the given number 'N' is odd, else return 'even'.
+For Example:
+N=5
+
+Output: odd
+
+string oddEven(int N){
+    // checking if last bit is set or not
+    if((N&(1<<0))!=0)
+    {
+        return "odd";
+    }
+    else{
+        return "even";
+    }
+}
+
+Time Complexity - O(1)
+Space Complexity - O(1)
