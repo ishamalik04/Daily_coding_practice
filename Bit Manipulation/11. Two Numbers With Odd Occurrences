@@ -1,0 +1,37 @@
+Problem statement
+You are given an array 'arr' of size 'n'.
+It contains an even number of occurrences for all numbers except two numbers
+Find those two numbers which have odd occurrences and return in decreasing order.
+
+Example:
+For 'arr' = {2, 4, 1, 3, 2, 4} , 'n' = 6.
+Answer is {3, 1}.
+Here, numbers 1, 3 have occurrence 1 i.e. odd and numbers 2, 4 have occurrence 2 i.e. even.
+
+vector<int> twoOddNum(vector<int> arr){
+    long XOR=0;
+    int n=arr.size();
+    for(int i=0;i<n;i++){
+        XOR=XOR^arr[i];
+    }
+    int rightmost=(XOR&(XOR-1))^XOR;
+    int bucket1=0;
+    int bucket2=0;
+    for(int i=0;i<n;i++){
+        if(arr[i]&rightmost){
+            bucket1=bucket1^arr[i];
+        }
+        else{
+            bucket2=bucket2^arr[i];
+        }
+    }
+    if(bucket2>bucket1){
+        return {bucket2,bucket1};
+    }
+    else{
+        return {bucket1,bucket2};
+    }
+}
+
+Time Complexity - O(2N)
+Space Complexity - O(1)
