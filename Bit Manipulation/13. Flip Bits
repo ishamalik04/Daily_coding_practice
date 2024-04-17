@@ -1,0 +1,25 @@
+Problem statement
+You are given two integers 'A' and 'B'.
+Your objective is to determine the number of bit positions where the corresponding bits of ‘A’ and ‘B’ differ, i.e., the number of bits that need to be flipped in ‘A’ to obtain ‘B’.
+
+Example:
+A = 7
+B = 12
+Output : 3
+
+A = 0111
+B = 1100
+We need to flip the 1st, 2nd, and 4th bit of ‘A’ from the LSB to get ‘B’
+
+int flipBits(int A, int B){
+    int ans=A^B;
+    int count=0;
+    while(ans!=0){
+       ans=ans&(ans-1);
+       count++;
+    }
+    return count;
+}
+
+Time Complexity - O(No. of set bits)
+Space Complexity - O(1)
