@@ -1,0 +1,22 @@
+Problem statement
+You have been given a Binary Tree of 'n' nodes, where the nodes have integer values. Your task is to return the In-Order traversal of the given binary tree.
+
+Sample Input 1 :
+1 2 3 -1 -1 -1  6 -1 -1
+Sample Output 1 :
+2 1 3 6
+
+void inOrder(TreeNode*root,vector<int>&v){
+    if(root==NULL){
+        return;
+    }
+    inOrder(root->left,v);
+    v.push_back(root->data);
+    inOrder(root->right, v);
+}
+vector<int> getInOrderTraversal(TreeNode *root)
+{
+    vector<int>inorder;
+    inOrder(root,inorder);
+    return inorder;
+}
