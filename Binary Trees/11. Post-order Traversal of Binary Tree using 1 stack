@@ -1,0 +1,31 @@
+Problem statement
+You have been given a Binary Tree of 'n' nodes, where the nodes have integer values. Your task is to return its postorder traversal.
+
+vector<int> postorderTraversal(TreeNode *root) {
+    stack<TreeNode*>st;
+    vector<int>post;
+    TreeNode*curr=root;
+    while(curr!=NULL || !st.empty()){
+        if(curr!=NULL){
+            st.push(curr);
+            curr=curr->left;
+        }
+        else{
+            TreeNode* temp=st.top()->right;
+            if(temp==NULL){
+                temp=st.top();
+                st.pop();
+                post.push_back(temp->data);
+                while(!st.empty() && temp==st.top()->right){
+                    temp=st.top();
+                    st.pop();
+                    post.push_back(temp->data);
+                }
+            }
+            else{
+                curr=temp;
+            }
+        }
+    }
+    return post;
+}
