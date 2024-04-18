@@ -1,0 +1,18 @@
+Problem statement
+You have been given a Binary Tree having 'n' nodes.
+A Symmetric tree is a binary tree whose mirror image is the same as the original tree.
+Find out whether the given tree is symmetric or not.
+
+bool symmetric(TreeNode<int>*left,TreeNode<int>*right){
+    if(left==NULL || right==NULL){
+        return left==right;
+    }
+    if(left->data!=right->data){
+        return false;
+    }
+    return symmetric(left->left, right->right) && symmetric(left->right, right->left);
+}
+bool isSymmetric(TreeNode<int> *root)
+{
+    return root==NULL || symmetric(root->left,root->right);
+}
