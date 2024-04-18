@@ -1,0 +1,22 @@
+Problem statement
+You have been given a Binary Tree of 'n' nodes, where the nodes have integer values. Your task is to return its postorder traversal.
+
+Sample Input 1:
+1 2 3 4 -1 -1 5 6 7 -1 -1 -1 -1 -1 -1
+Sample Output 1:
+6 7 4 2 5 3 1
+
+void postOrder(TreeNode*root,vector<int>&v){
+    if(root==NULL){
+        return;
+    }
+    postOrder(root->left,v);
+    postOrder(root->right, v);
+    v.push_back(root->data);
+}
+vector<int> postorderTraversal(TreeNode *root)
+{
+    vector<int>postorder;
+    postOrder(root,postorder);
+    return postorder;
+}
