@@ -1,0 +1,39 @@
+You are given a binary tree having 'n' nodes.
+Vertical order traversal is a traversal in which we traverse the nodes from left to right and then from top to bottom.
+In the case of multiple nodes in the same place, we traverse them in the non-decreasing order of their value.
+Formally, assume for any node at position (x, y), its left child will be at the position (x - 1, y + 1), and the right child at position (x + 1, y + 1). Assume the root is at coordinate (0, 0).
+Run vertical lines from 'x' = -infinity to 'x' = +infinity. Now whenever this vertical line touches some nodes, we need to add those values of the nodes in order starting from top to bottom with the decreasing 'y' coordinates.
+If multiple nodes have the same 'x' and 'y' coordinates, they will be accessed in non-decreasing order of values.
+
+#include<bits/stdc++.h>
+vector<int> verticalOrderTraversal(TreeNode<int> *root) {
+    map<int,map<int,multiset<int>>>nodes;
+    queue<pair<TreeNode<int>*,pair<int,int>>>q;
+    vector<int>ans;
+    if(root==NULL){
+        return ans;
+    }
+    q.push(make_pair(root,make_pair(0,0)));
+    while(!q.empty()){
+        pair<TreeNode<int>*,pair<int,int>>temp=q.front();
+        q.pop();
+        TreeNode<int>*frontNode=temp.first;
+        int hd=temp.second.first;
+        int level=temp.second.second;
+        nodes[hd][level].insert(frontNode->data);
+        if(frontNode->left){
+            q.push(make_pair(frontNode->left,make_pair(hd-1,level+1)));
+        }
+        if(frontNode->right){
+            q.push(make_pair(frontNode->right,make_pair(hd+1,level+1)));
+        }
+    }
+    for(auto i:nodes){
+        for(auto j:i.second){
+            for(auto k:j.second){
+                ans.push_back(k);
+            }
+        }
+    }
+    return ans;	
+}
