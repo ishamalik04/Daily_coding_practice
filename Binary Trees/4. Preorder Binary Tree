@@ -1,0 +1,39 @@
+Problem statement
+You are given a ‘Binary Tree’.
+
+
+
+Return the preorder traversal of the Binary Tree.
+
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+void preorder(TreeNode<int>*root,vector<int>&v){
+    if(root==NULL){
+        return;
+    }
+    v.push_back(root->data);
+    preorder(root->left,v);
+    preorder(root->right, v);
+}
+vector<int> preOrder(TreeNode<int> * root){
+    vector<int>pre;
+    preorder(root,pre);
+    return pre;
+}
