@@ -1,0 +1,15 @@
+Problem statement
+The height of a tree is equal to the number of nodes on the longest path from the root to a leaf.
+You are given an arbitrary binary tree consisting of 'n' nodes where each node is associated with a certain value.
+Find out the height of the tree.
+
+int heightOfBinaryTree(TreeNode<int> *root)
+{
+    if(root==NULL){
+        return 0;
+     }
+    int left=heightOfBinaryTree(root->left);
+    int right=heightOfBinaryTree(root->right);
+    int ans=max(left,right)+1;
+    return ans;
+}
