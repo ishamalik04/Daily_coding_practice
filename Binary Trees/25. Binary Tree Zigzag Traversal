@@ -1,0 +1,38 @@
+Problem statement
+You have been given a Binary Tree of 'N' nodes, where the nodes have integer values. Your task is to print the zigzag traversal of the given tree.
+Note:
+In zigzag order, level 1 is printed from left to right fashion, level 2 is printed from right to left. and level 3 is printed from left to right again, and so on…..
+
+vector<int> zigZagTraversal(BinaryTreeNode<int> *root)
+{
+    vector<int>result;
+    if (root == NULL) {
+      return result;
+    }
+    queue<BinaryTreeNode<int> *> q;
+    q.push(root);
+    bool leftToRight=true;
+    while(!q.empty()){
+        int size=q.size();
+        vector<int>ans(size);
+        for(int i=0;i<size;i++){
+            BinaryTreeNode<int>*node=q.front();
+            q.pop();
+
+            int index=leftToRight?i:size-i-1;
+            ans[index]=node->data;
+
+            if(node->left){
+                q.push(node->left);
+            }
+            if(node->right){
+                q.push(node->right);
+            }
+        }
+        leftToRight=!leftToRight;
+        for(auto i:ans){
+            result.push_back(i);
+        }
+    }
+    return result;
+}
