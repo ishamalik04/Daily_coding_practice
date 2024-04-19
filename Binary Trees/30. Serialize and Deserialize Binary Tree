@@ -1,0 +1,70 @@
+You have been given a binary tree of integers. You are supposed to serialize and deserialize (refer to notes) the given binary tree.
+
+You can choose any algorithm to serialize/deserialize the given binary tree. You only have to ensure that the serialized string can be
+deserialized to the original binary tree.
+
+Note :
+Serialization is the process of translating a data structure or object state into a format that can be stored or transmitted (for example, across a computer network) and reconstructed later.
+The opposite operation, that is, extracting a data structure from stored information, is deserialization.
+
+
+string serializeTree(TreeNode<int> *root)
+{
+  if(!root){
+      return "";
+  }
+  string s="";
+  queue<TreeNode<int>*>q;
+  q.push(root);
+  while(!q.empty()){
+      TreeNode<int>* current=q.front();
+      q.pop();
+      if(current==NULL){
+          s.append("#,");
+      }else{
+          s.append(to_string(current->data)+',');
+      }
+      if(current!=NULL){
+          q.push(current->left);
+          q.push(current->right);
+      }
+  }
+  return s;
+
+}
+
+TreeNode<int>* deserializeTree(string &serialized)
+{
+    if(serialized.size()==0){
+        return NULL;
+    }
+    stringstream s(serialized);
+    string str;
+    getline(s,str,',');
+    TreeNode<int>*root=new TreeNode<int> (stoi(str));
+    queue<TreeNode<int>*>q;
+    q.push(root);
+    while(!q.empty()){
+        TreeNode<int>* front=q.front();
+        q.pop();
+        getline(s,str,',');
+        if(str=="#"){
+            front->left=NULL;
+        }else{
+            TreeNode<int>*left=new TreeNode<int>(stoi(str));
+            front->left=left;
+            q.push(left);
+        }
+        getline(s,str,',');
+        if(str=="#"){
+            front->right=NULL;
+        }else{
+            TreeNode<int>*right=new TreeNode<int>(stoi(str));
+            front->right=right;
+            q.push(right);
+        }
+
+    }
+    return root;
+
+}
