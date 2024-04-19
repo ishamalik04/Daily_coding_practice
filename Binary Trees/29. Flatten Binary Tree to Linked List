@@ -1,0 +1,23 @@
+Problem statement
+You are given a binary tree consisting of 'n' nodes.
+Convert the given binary tree into a linked list where the linked list nodes follow the same order as the pre-order traversal of the given binary tree.
+Use the right pointer of the binary tree as the “next” pointer for the linked list and set the left pointer to NULL.
+Use these nodes only. Do not create extra nodes.
+
+
+void flattenBinaryTree(TreeNode<int>* root)
+{
+    TreeNode<int>*current=root;
+    while(current!=NULL){
+        if(current->left){
+            TreeNode<int>*predecessor=current->left;
+            while(predecessor->right){
+                predecessor=predecessor->right;
+            }
+            predecessor->right=current->right;
+            current->right=current->left;
+            current->left=NULL;
+        }
+        current=current->right;
+    }
+}
