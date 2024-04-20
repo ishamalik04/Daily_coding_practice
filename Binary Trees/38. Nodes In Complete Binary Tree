@@ -1,0 +1,35 @@
+Problem statement
+You are given the root of a complete binary tree, you need to calculate the number of nodes in the given complete binary tree.
+
+A complete binary tree is a tree in which all the levels are completely filled except the last level. Nodes in the last level are as left as possible.
+
+int findHeightLeft(BinaryTreeNode<int>*node){
+    int height=0;
+    while(node){
+        height++;
+        node=node->left;
+    }
+    return height;
+}
+
+int findHeightRight(BinaryTreeNode<int>*node){
+    int height=0;
+    while(node){
+        height++;
+        node=node->right;
+    }
+    return height;
+}
+int countNodes(BinaryTreeNode<int> *root) {
+  if(root==NULL){
+      return 0;
+  }
+  int leftHeight=findHeightLeft(root);
+  int rightHeight=findHeightRight(root);
+
+  if(leftHeight==rightHeight){
+      return (1<<leftHeight)-1;
+  }
+
+  return 1+countNodes(root->left)+countNodes(root->right);
+}
