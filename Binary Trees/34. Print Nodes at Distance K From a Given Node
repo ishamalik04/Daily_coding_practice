@@ -1,0 +1,65 @@
+Problem statement
+You are given an arbitrary binary tree, a node of the tree, and an integer 'K'. You need to find all such nodes which have a distance K from the given node and return the list of these nodes.
+
+Distance between two nodes in a binary tree is defined as the number of connections/edges in the path between the two nodes.
+
+
+
+void markParents(BinaryTreeNode<int>*root,map<BinaryTreeNode<int>*,BinaryTreeNode<int>*>&parentTrack,BinaryTreeNode<int>*target){
+    if(root==NULL) return;
+    queue<BinaryTreeNode<int>*>q;
+    q.push(root);
+    parentTrack[root] = nullptr;
+    while(!q.empty()){
+        BinaryTreeNode<int>*current=q.front();
+        q.pop();
+        if(current->left){
+            parentTrack[current->left]=current;
+            q.push(current->left);
+        }
+        if(current->right){
+            parentTrack[current->right]=current;
+            q.push(current->right);
+        }
+        
+    }
+}
+vector<BinaryTreeNode<int>*> printNodesAtDistanceK(BinaryTreeNode<int>* root, BinaryTreeNode<int>* target, int K) {
+    map<BinaryTreeNode<int>*,BinaryTreeNode<int>*>parentTrack;
+    markParents(root,parentTrack,target);
+    map<BinaryTreeNode<int>*,bool>visited;
+    queue<BinaryTreeNode<int>*>q;
+    q.push(target);
+    visited[target]=true;
+    int level=0;
+    while(!q.empty()){
+        int size=q.size();
+        if(level++ ==K){
+            break;
+        }
+        for(int i=0;i<size;i++){
+            BinaryTreeNode<int>*current=q.front();
+            q.pop();
+            if(current->left && !visited[current->left]){
+                q.push(current->left);
+                visited[current->left]=true;
+            }
+            if(current->right && !visited[current->right]){
+                q.push(current->right);
+                visited[current->right]=true;
+            }
+            if(parentTrack[current] && !visited[parentTrack[current]]){
+                q.push(parentTrack[current]);
+                visited[parentTrack[current]]=true;
+            }
+        }
+    }
+    vector<BinaryTreeNode<int>*>result;
+    while(!q.empty()){
+        BinaryTreeNode<int>*front=q.front();
+        result.push_back(front);
+        q.pop();
+    }
+    return result;
+
+}
