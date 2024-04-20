@@ -1,0 +1,72 @@
+Problem statement
+You have a binary tree of 'N' unique nodes and a Start node from where the tree will start to burn. Given that the Start node will always exist in the tree,
+your task is to print the time (in minutes) that it will take to burn the whole tree.
+It is given that it takes 1 minute for the fire to travel from the burning node to its adjacent node and burn down the adjacent node.
+
+
+#include<bits/stdc++.h>
+BinaryTreeNode<int>* createParentMapping(BinaryTreeNode<int>*root,int target,map<BinaryTreeNode<int>*,BinaryTreeNode<int>*>&NodeToParent){
+    BinaryTreeNode<int>*res=NULL;
+    queue<BinaryTreeNode<int>*>q;
+    q.push(root);
+    NodeToParent[root]=NULL;
+    while(!q.empty()){
+        BinaryTreeNode<int>*front=q.front();
+        q.pop();
+        if(front->data==target){
+            res=front;
+        }
+        if(front->left){
+            NodeToParent[front->left]=front;
+            q.push(front->left);
+        }
+        if(front->right){
+            NodeToParent[front->right]=front;
+            q.push(front->right);
+        }
+    }
+    return res;
+}
+int burnTree(BinaryTreeNode<int>* root,  map<BinaryTreeNode<int>*,  BinaryTreeNode<int>*> &NodeToParent)
+{
+    map<BinaryTreeNode<int>*,bool>visited;
+    queue<BinaryTreeNode<int>*>q;
+    q.push(root);
+    visited[root]=1;
+    int ans=0;
+    while(!q.empty()){
+        int size=q.size();
+        bool flag=0;
+        for(int i=0;i<size;i++){
+            BinaryTreeNode<int>*front=q.front();
+            q.pop();
+            if(front->left && !visited[front->left]){
+                flag=1;
+                q.push(front->left);
+                visited[front->left]=true;
+            }
+            if(front->right && !visited[front->right]){
+                flag=1;
+                q.push(front->right);
+                visited[front->right]=true;
+            }
+            if(NodeToParent[front] && !visited[NodeToParent[front]]){
+                flag=1;
+                q.push(NodeToParent[front]);
+                visited[NodeToParent[front]]=true;
+            }
+        }
+        if(flag==1){
+            ans++;
+        }
+    }
+    return ans;
+}
+
+int timeToBurnTree(BinaryTreeNode<int>* root, int start){
+    map<BinaryTreeNode<int>*, BinaryTreeNode<int>*> NodeToParent;
+    BinaryTreeNode<int>* target = createParentMapping(root, start, NodeToParent);
+    return burnTree(target, NodeToParent);
+}
+
+
