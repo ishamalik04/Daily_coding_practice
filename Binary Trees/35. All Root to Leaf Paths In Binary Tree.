@@ -1,0 +1,24 @@
+Problem statement
+You are given an arbitrary binary tree consisting of 'N' nodes numbered from 1 to 'N'. Your task is to print all the root to leaf paths of the binary tree.
+A leaf of a binary tree is the node which does not have a left child and a right child.
+
+void solve(BinaryTreeNode<int>*root,vector<string>&ans,string result){
+    if(root==NULL){
+        return;
+    }
+    result+=to_string(root->data)+" ";
+    if(!root->left && !root->right){
+        ans.push_back(result);
+        return;
+    }
+    solve(root->left,ans,result);
+    solve(root->right,ans,result);
+}
+
+vector <string> allRootToLeaf(BinaryTreeNode<int> * root) {
+    vector<string>ans;
+    string result="";
+    solve(root,ans,result);
+    return ans;
+}
+
