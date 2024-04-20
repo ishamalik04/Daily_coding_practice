@@ -1,0 +1,32 @@
+Problem statement
+You have been given a Binary Tree of integers. You are supposed to return the maximum width of the given Binary Tree. 
+The maximum width of the tree is the maximum width among all the levels of the given tree.
+
+The width of one level is defined as the length between the leftmost and the rightmost, non-null nodes in the level, 
+where the null nodes in between the leftmost and rightmost are excluded into length calculation.
+
+int getMaxWidth(TreeNode<int> *root)
+{
+    int ans = 0;
+    if(root==NULL){
+        return ans;
+    }
+    queue<TreeNode<int>*> q;
+    q.push(root);
+    while(!q.empty()){
+        int n = q.size();
+        ans = max(ans , n);
+        for(int i = 0; i<n ; i++){
+        TreeNode<int>* temp=q.front();
+        q.pop();
+        if(temp->left){
+            q.push(temp->left);
+        }
+        if (temp->right) {
+        q.push(temp->right);
+         }
+        }
+    }
+
+    return ans;
+}
