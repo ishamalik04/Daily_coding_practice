@@ -1,0 +1,30 @@
+Problem statement
+You are given an array ‘order’ which represents the inorder traversal of a binary search tree.
+
+
+
+Find out if this traversal is valid or not.
+
+
+
+Note: All values in the BST must be unique.
+
+For Example:
+
+‘order’ = {1, 2, 3, 4,5} is a valid inorder traversal for the following binary search tree:
+      4
+     / \
+    2   5
+   / \
+  1   3
+
+
+  bool isValidBST(vector<int> &order){
+   for(int i=1;i<order.size();i++){
+       if(order[i]>order[i-1]){}
+       else{
+           return false;
+       }
+   }
+   return true;
+}
