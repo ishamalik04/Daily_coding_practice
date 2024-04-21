@@ -1,0 +1,30 @@
+Problem statement
+You are given a Binary Search Tree.
+Find the minimum value in it.
+Note:
+All the values in the given binary search tree are unique.
+Example:
+Input : 6 4 7 2 5 N N
+
+Output: 2
+
+Explanation:
+For the given input BST is:
+
+      6
+     / \
+   4    7
+  / \
+ 2   5
+
+Minimum value in this tree is ‘2’.
+
+int minVal(Node* root){
+	if(!root){
+		return -1;
+	}
+	while(root->left!=NULL){
+		root=root->left;
+	}
+	return root->data;	
+}
