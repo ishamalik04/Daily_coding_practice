@@ -1,0 +1,54 @@
+Problem statement
+You have been given a Binary Search Tree of integers with ‘N’ nodes. You are also given data of a node of this tree. Your task is to delete the given node from the BST.
+A binary search tree (BST) is a binary tree data structure that has the following properties:
+
+• The left subtree of a node contains only nodes with data less than the node’s data.
+
+• The right subtree of a node contains only nodes with data greater than the node’s data.
+
+• Both the left and right subtrees must also be binary search trees.
+
+int minVal(BinaryTreeNode<int>* root){
+	if(!root){
+		return -1;
+	}
+	while(root->left!=NULL){
+		root=root->left;
+	}
+	return root->data;	
+}
+BinaryTreeNode<int>* deleteNode(BinaryTreeNode<int>* root, int key) {
+    if(root==NULL){
+        return root;
+    }
+    if(root->data==key){
+        if(root->left==NULL && root->right==NULL){
+            delete root;
+            return NULL;
+        }
+        if(root->left!=NULL && root->right==NULL){
+            BinaryTreeNode<int>*temp=root->left;
+            delete root;
+            return temp;
+        }
+        if(root->left==NULL && root->right!=NULL){
+            BinaryTreeNode<int>*temp=root->right;
+            delete root;
+            return temp;
+        }
+        if(root->left!=NULL && root->right!=NULL){
+            int mini=minVal(root->right);
+            root->data=mini;
+            root->right=deleteNode(root->right, mini);
+            return root;
+        }
+    }
+    else if(root->data >key){
+        root->left=deleteNode(root->left,  key);
+        return root;
+    }
+    else{
+        root->right=deleteNode(root->right,  key);
+        return root;
+    }
+}
