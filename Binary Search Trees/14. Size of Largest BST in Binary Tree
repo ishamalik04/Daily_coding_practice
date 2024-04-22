@@ -1,0 +1,45 @@
+Problem statement
+You have been given a Binary Tree of 'N' nodes, where the nodes have integer values. Your task is to return the size of the largest subtree of the binary tree which is also a BST.
+
+A binary search tree (BST) is a binary tree data structure which has the following properties.
+
+• The left subtree of a node contains only nodes with data less than the node’s data.
+• The right subtree of a node contains only nodes with data greater than the node’s data.
+• Both the left and right subtrees must also be binary search trees.
+
+class info {
+    public:
+    int maxi;
+    int mini;
+    bool isBst;
+    int size;
+};
+info solve(TreeNode *root, int &ans) {
+  if (root == NULL) {
+    return {INT_MIN, INT_MAX, true, 0};
+  }
+  info left = solve(root->left, ans);
+  info right = solve(root->right, ans);
+
+  info currNode;
+  currNode.size=left.size+right.size+1;
+  currNode.maxi=max(root->data,right.maxi);
+  currNode.mini=min(root->data,left.mini);
+
+  if(left.isBst && right.isBst && (root->data < right.mini && root->data >left.maxi)){
+      currNode.isBst=true;
+  }
+  else{
+      currNode.isBst=false;
+  }
+
+  if(currNode.isBst){
+      ans=max(ans,currNode.size);
+  }
+  return currNode;
+}
+int largestBST(TreeNode * root){
+    int ans=0;
+    info temp=solve(root,ans);
+    return ans;
+}
