@@ -1,0 +1,29 @@
+Problem statement
+You have been given a Binary Search Tree of 'N' nodes, where exactly two nodes of the same tree were swapped by mistake.
+Your task is to restore or fix the BST, without changing its structure and return the root of the corrected BST.
+Note:
+Given BST will not contain duplicates.
+
+TreeNode* first,*second,*pre;
+
+void correct(TreeNode* root){
+    if(!root){
+        return ;
+    }
+    correct(root->left);
+    if(pre &&  pre->data > root->data){
+        if(!first){
+            first=pre;
+        }
+        second=root;
+    }
+    pre=root;
+    correct(root->right);
+}
+
+TreeNode * FixBST(TreeNode * root){
+    first=NULL,second=NULL,pre=NULL;
+    correct(root);
+    swap(first->data,second->data);
+    return root;
+}
