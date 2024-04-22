@@ -1,0 +1,22 @@
+Problem statement
+Given a binary tree with N number of nodes, check if that input tree is BST (Binary Search Tree). If yes, return true, return false otherwise.
+
+Note:
+Duplicate elements should be kept in the right subtree.
+
+#include<bits/stdc++.h>
+bool validate(BinaryTreeNode<int>* root,int mini,int maxi){
+	if(root==NULL){
+		return true;
+	}
+	if(root->data >=mini && root->data <= maxi){
+        bool left=validate(root->left,mini,root->data);
+		bool right=validate(root->right, root->data, maxi);
+		return left&&right;
+	}else{
+		return false;
+	}
+}
+bool isBST(BinaryTreeNode<int> *root) {
+	return validate(root,INT_MIN,INT_MAX);
+}
