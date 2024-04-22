@@ -1,0 +1,27 @@
+Problem statement
+You are given a preorder traversal of a binary search tree. Your task is to find the postorder from the preorder.
+
+Return the root of the BST constructed from the given preorder. The driver code will then use this root to print the post-order traversal.
+
+
+TreeNode* solve(vector<int>&preOrder,int mini,int maxi,int&i){
+    if(i>=preOrder.size()){
+        return NULL;
+    }
+
+    if(preOrder[i]<mini || preOrder[i]>maxi){
+        return NULL;
+    }
+
+    TreeNode*root=new TreeNode(preOrder[i++]);
+    root->left=solve(preOrder, mini, root->data, i);
+    root->right=solve(preOrder,root->data,maxi,i);
+    return root;
+}
+TreeNode *preOrderTree(vector<int> &preOrder)
+{
+    int mini=INT_MIN;
+    int maxi=INT_MAX;
+    int i=0;
+    return solve(preOrder,mini,maxi,i);
+}
