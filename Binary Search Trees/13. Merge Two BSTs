@@ -1,0 +1,84 @@
+Problem statement
+You are given two binary search trees of integers having ‘N’ and ‘M’ nodes. Return an array that contains elements of both BST in sorted order.
+
+A binary search tree (BST) is a binary tree data structure with the following properties.
+
+• The left subtree of a node contains only nodes with data less than the node’s data.
+
+• The right subtree of a node contains only nodes with data greater than the node’s data.
+
+• Both the left and right subtrees must also be binary search trees.
+
+void convertIntoSortedDLL(TreeNode* root,TreeNode* &head){
+    if(!root){
+        return;
+    }
+    convertIntoSortedDLL(root->right,head);
+    root->right=head;
+    if(head){
+        head->left=root;
+    }
+    head=root;
+    convertIntoSortedDLL(root->left,head);
+
+}
+
+TreeNode* mergeLinkedList(TreeNode* head1,TreeNode*head2){
+    TreeNode* head=new TreeNode(-1);
+    TreeNode* tail=head;
+
+    while(head1 && head2){
+        TreeNode*newNode;
+
+        if(head1->data < head2->data){
+           newNode=new TreeNode(head1->data);
+           head1=head1->right;
+        }else{
+            newNode=new TreeNode(head2->data);
+            head2=head2->right;
+        }
+        tail->right=newNode;
+        newNode->left=tail;
+        tail=newNode;
+    }
+    while(head1){
+        TreeNode *newNode = new TreeNode(head1->data);
+        tail->right = newNode;
+        newNode->left = tail;
+        tail = newNode;
+        head1 = head1->right;
+    }
+    while(head2){
+        TreeNode *newNode = new TreeNode(head2->data);
+        tail->right = newNode;
+        newNode->left = tail;
+        tail = newNode;
+        head2 = head2->right;
+    }
+    return head->right;
+}
+
+
+
+vector<int> mergeBST(TreeNode *root1, TreeNode *root2)
+{
+    // step1. convert BST to sorted DLL in place 
+    TreeNode* head1=NULL;
+    convertIntoSortedDLL(root1,head1);
+    head1->left=NULL;
+
+     TreeNode* head2=NULL;
+    convertIntoSortedDLL(root2,head2);
+    head2->left=NULL;
+
+    // step2. merge sorted LL 
+    TreeNode* head=mergeLinkedList(head1,head2);
+
+
+    vector<int>ans;
+    while(head){
+        ans.push_back(head->data);
+        head=head->right;
+    }
+    return ans;
+}
