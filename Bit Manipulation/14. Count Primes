@@ -1,0 +1,30 @@
+Problem statement
+You are given an integer 'N'.
+You must return the unique prime factors of 'N' in increasing order.
+
+For Example:
+For ‘N’ = 10.
+
+Unique prime factors are 2 and 5.
+
+Hence we return {2, 5}.
+
+
+bool isPrime(int n){
+    if(n==1) return false;
+    for(int i=2;i<=sqrt(n);i++){
+        if(n%i==0) return false;
+    }
+    return true;
+}
+
+vector<int> countPrimes(int n)
+{
+    vector<int> ans;
+    for(int i=1;i<=n;i++){
+        if(n%i==0){
+            if(isPrime(i)) ans.push_back(i);
+        }
+    }
+    return ans;
+}
