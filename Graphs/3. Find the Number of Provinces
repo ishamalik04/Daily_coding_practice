@@ -1,0 +1,46 @@
+Problem statement
+You are given ‘n’ cities, some of which are connected by bidirectional roads. You are also given an ‘n x n’ matrix i.e. ‘roads’,
+where if city ‘i’ and ‘j’ are connected by a road then ‘roads[i][j]'= 1, otherwise ‘roads[i][j]' = 0.
+
+A province is a group of cities that are either directly or indirectly connected to each other through roads.
+The goal is to count and return the total number of such provinces in the given matrix.
+Example:
+n = 4, roads = [ [1, 1, 1, 0],
+                 [1, 1, 1, 0],
+                 [1, 1, 1, 0],
+                 [0, 0, 0, 1] ]
+
+So, there are ‘2’ provinces.
+Note:
+1. A city is connected to itself. So, for every city ‘i’, ‘roads[i][i] = 1’.
+
+#include<bits/stdc++.h>
+void dfs(int node,vector<vector<int>>&adjList,vector<int> &vis){
+    vis[node]=1;
+    for(auto it:adjList[node]){
+        if(!vis[it]){
+            dfs(it,adjList,vis);
+        }
+    }
+}
+
+int findNumOfProvinces(vector<vector<int>>& roads, int n) {
+    vector<vector<int>>adjList(n);
+    int ans=0;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            if(roads[i][j]==1 && i!=j){
+                adjList[i].push_back(j);
+                adjList[j].push_back(i);
+            }
+        }
+    }
+    vector<int> vis(n, 0);
+    for(int i=0;i<n;i++){
+        if(!vis[i]){
+            ans++;
+            dfs(i,adjList,vis);
+        }
+    }
+    return ans;
+}
