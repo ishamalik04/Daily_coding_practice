@@ -1,0 +1,39 @@
+Problem statement
+Given a directed graph, check whether the graph contains a cycle or not. 
+Your function should return true if the given graph contains at least one cycle, else return false.
+
+
+bool dfs(int node,vector<int>adjList[],int vis[],int pathVis[]){
+	vis[node]=1;
+	pathVis[node]=1;
+	for(auto it:adjList[node]){
+		if(!vis[it]){
+			if(dfs(it,adjList,vis,pathVis)==true){
+				return true;
+			}
+		}
+		else if(pathVis[it]){
+			return true;
+		}
+	}
+	pathVis[node]=0;
+	return false;
+}
+
+bool isCyclic(vector<vector<int>>& edges, int v, int e)
+{
+	vector<int>adjList[v];
+	for(auto it:edges){
+		adjList[it[0]].push_back(it[1]);
+	}
+	int vis[v]={0};
+	int pathVis[v]={0};
+	for(int i=0;i<v;i++){
+		if(!vis[i]){
+			if(dfs(i,adjList,vis,pathVis)==true){
+				return true;
+			}
+		}
+	}
+	return false;
+}
