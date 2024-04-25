@@ -1,0 +1,51 @@
+Problem statement
+You have been given a grid containing some oranges. Each cell of this grid has one of the three integers values:
+Value 0 - representing an empty cell.
+Value 1 - representing a fresh orange.
+Value 2 - representing a rotten orange.
+Every second, any fresh orange that is adjacent(4-directionally) to a rotten orange becomes rotten.
+Your task is to find out the minimum time after which no cell has a fresh orange. If it's impossible to rot all the fresh oranges then print -1.
+Note:
+1. The grid has 0-based indexing.
+2. A rotten orange can affect the adjacent oranges 4 directionally i.e. Up, Down, Left, Right.
+
+#include<bits/stdc++.h>
+int minTimeToRot(vector<vector<int>>& grid, int n, int m)
+{
+    queue<pair<pair<int,int>,int>>q;
+    vector<vector<int>>visited(n,vector<int>(m,0));
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(grid[i][j]==2){
+              q.push({{i, j}, 0});
+              visited[i][j]=2;
+            }
+        }
+    }
+    int drow[]={-1,0,1,0};
+    int dcol[]={0,1,0,-1};
+    int time=0;
+    while(!q.empty()){
+        int r=q.front().first.first;
+        int c=q.front().first.second;
+        int t=q.front().second;
+        q.pop();
+        time=max(time,t);
+        for(int i=0;i<4;i++){
+            int nrow=r+drow[i];
+            int ncol=c+dcol[i];
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && !visited[nrow][ncol] && grid[nrow][ncol]==1){
+                q.push({{nrow,ncol},(t+1)});
+                visited[nrow][ncol]=1;
+            }
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(!visited[i][j] && grid[i][j]==1){
+                return -1;
+            }
+        }
+    }
+    return time;
+}
