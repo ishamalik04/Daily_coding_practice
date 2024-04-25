@@ -1,0 +1,47 @@
+Problem statement
+Given a ’N*M’ matrix. Each cell in the matrix can have a value of either 0 or 1. 
+You can start from any zero-valued cell and move to adjacent cells (up, down, left, or right) as long as the destination cell also has a value of 0.
+
+An edge of the matrix is defined as the first row, the first column, the last row, or the last column.
+A trap cell is a cell where you can start but cannot reach an edge.
+Return the number of trap cells.
+
+int matrixTraps(int n,int m,vector<vector<int>> &Matrix)
+{
+    queue<pair<int,int>>q;
+    int vis[n][m]={0};
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(i==0 || i==n-1 || j==0 || j==m-1){
+                if(Matrix[i][j]==0){
+                    q.push({i,j});
+                    vis[i][j]=1;
+                }
+            }
+        }
+    }
+    int drow[]={-1,0,1,0};
+    int dcol[]={0,1,0,-1};
+    while(!q.empty()){
+        int row=q.front().first;
+        int col=q.front().second;
+        q.pop();
+        for(int i=0;i<4;i++){
+            int nrow=row+drow[i];
+            int ncol=col+dcol[i];
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && Matrix[nrow][ncol]==0 && vis[nrow][ncol] == 0 ){
+                q.push({nrow,ncol});
+                vis[nrow][ncol]=1;
+            }
+        }
+    }
+    int ans=0;
+    for(int i=1;i<n-1;i++){
+        for(int j=1;j<m-1;j++){
+            if(Matrix[i][j]==0 && vis[i][j]==0){
+                ans++;
+            }
+        }
+    }
+    return ans;
+}
