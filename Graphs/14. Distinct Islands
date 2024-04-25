@@ -1,0 +1,48 @@
+Problem statement
+You are given a two-dimensional array/list of integers consisting of 0s and 1s. In the list, 1 represents land and 0 represents water.
+The task is to find the number of distinct islands where a group of connected 1s(horizontally or vertically) forms an island.
+Note:
+Two islands are considered to be the same if and only if one island is equal to another(not rotated or reflected) i.e if we can translate one island on another without rotating or reflecting then it would be considered as the same islands. 
+For example:
+1 1 0
+0 0 1
+0 0 1
+In this example, we have two islands and they would be considered as distinct islands as we can not translate them on one another even if they have the same no of 1's.
+For example :
+1 1 0 0 0 
+1 1 0 0 0
+0 0 0 1 1
+0 0 0 1 1
+In this example, we have two islands and they are the same as we can translate one island onto another island, so our answer should be 1.
+
+
+#include<bits/stdc++.h>
+void dfs(int row,int col,vector<vector<int>>&vis,int** arr,vector<pair<int,int>>&vec,int r,int c,int n,int m){
+    vis[row][col]=1;
+    vec.push_back({row-r,col-c});
+    int drow[]={-1,0,1,0};
+    int dcol[]={0,1,0,-1};
+    for(int i=0;i<4;i++){
+            int nrow=row+drow[i];
+            int ncol=col+dcol[i];
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && !vis[nrow][ncol] && arr[nrow][ncol]==1){
+                dfs(nrow,ncol,vis,arr,vec,r,c,n,m);
+            }
+        }
+}
+
+int distinctIslands(int** arr, int n, int m)
+{
+    vector<vector<int>>visited(n,vector<int>(m,0));
+    set<vector<pair<int,int>>>st;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(!visited[i][j] && arr[i][j]==1){
+                vector<pair<int,int>>vec;
+                dfs(i,j,visited,arr,vec,i,j,n,m);
+                st.insert(vec);
+            }
+        }
+    }
+    return st.size();
+}
