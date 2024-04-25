@@ -1,0 +1,44 @@
+Detect Cycle in an Undirected Graph
+
+Problem statement
+Given an undirected graph of 'V' vertices and 'E' edges. Return true if the graph contains a cycle or not, else return false.
+Note:
+There are no self-loops(an edge connecting the vertex to itself) in the given graph.
+Example:
+Given N=3, M =2, and edges are (1, 2) and (2, 3), with nodes 1, 2, and 3.
+We return false because the given graph does not have any cycle.
+
+
+Solution:
+
+bool dfs(int node,int parent,vector<int>adj[],int vis[]){
+    vis[node]=1;
+    for(auto it:adj[node]){
+        if(!vis[it]){
+            if(dfs(it,node,adj,vis)==true){
+                return true;
+            }
+        }
+        else if(it!=parent){
+            return true;
+        }
+    }
+     return false;
+}
+
+public:
+    bool detectCycle(int V, vector<int> adj[]) {
+        int vis[V]={0};
+        for(int i=0;i<V;i++){
+            if(!vis[i]){
+                // if(cycle(i,adj,vis)){
+                //     return true;
+                // }
+                if(dfs(i,-1,adj,vis)){
+                    return true;
+                }
+            }
+        }
+        return  false;
+    }
+};
