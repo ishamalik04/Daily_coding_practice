@@ -1,0 +1,47 @@
+Problem statement
+Given a graph, check whether the graph is bipartite or not. Your function should return true if the given graph's vertices can be divided into two independent sets, ‘U’ and ‘V’ 
+such that every edge (‘u’, ‘v’) either connects a vertex from ‘U’ to ‘V’ or a vertex from ‘V’ to ‘U’.
+You are given a 2D array ‘edges’ which contains 0 and 1, where ‘edges[i][j]’ = 1 denotes a bi-directional edge from ‘i’ to ‘j’.
+
+Note:
+If edges[i][j] = 1, that implies there is a bi-directional edge between ‘i’ and ‘j’, that means there exists both edges from ‘i’ to ‘j’ and to ‘j’ to ‘i’.
+
+
+bool dfs(int node,int col,vector<int>& color,vector<int>adjList[]){
+	color[node]=col;
+	for(auto it:adjList[node]){
+		if(color[it]==-1){
+			if(dfs(it,!col,color,adjList)==false){
+				return false;
+			}
+		}
+		else if (color[it] == col) {
+                return false;
+            }
+        }
+        
+	return true;
+}
+
+bool isGraphBirpatite(vector<vector<int>> &edges) {
+	int V=edges.size();
+    vector<int>color(V,-1);
+	vector<int>adjList[V];
+	for(int i=0;i<V;i++){
+		for(int j=0;j<V;j++){
+			if(edges[i][j]==1 && i!=j){
+				adjList[i].push_back(j);
+				adjList[j].push_back(i);
+			}
+		}
+	}
+	for(int i=0;i<V;i++){
+		if(color[i]==-1){
+			if(dfs(i,0,color,adjList)==false){
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
