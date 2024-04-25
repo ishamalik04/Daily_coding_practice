@@ -1,0 +1,68 @@
+Problem statement
+Given a 2D array grid G of 'O's and 'X's. The task is to replace all 'O' with 'X' contained in each island. Where, an island is a set of 'O's connected horizontally or vertically and surrounded by 'X' from all of it's boundaries. (Boundary means top, bottom, left and right)
+
+Example:
+{{X, X, O, X, X, X},
+ {X, X, O, X, O, X},
+ {X, X, X, O, O, X},
+ {X, O, X, X, X, X},
+ {O, X, O, O, X, X},
+ {X, X, X, X, O, X}}
+In the above example, there are 3 islands. Considering Zero based indexing of rows and columns, in the following islands described here, (x,y) represents the element in xth row and yth column.
+
+Island 1: Formed by three elements at (1, 4), (2, 3), (2, 4) positions.
+
+Island 2: Formed by a single element at (3, 1) position.
+
+Island 3: Formed by two elements at (4, 2), (4, 3) positions.
+
+Note:
+
+In the above example, elements at positions (0, 2) and (1,2) do not form an island as there is no 'X' surronding it from the top.
+
+
+#include<bits/stdc++.h>
+void dfs(int row,int col,vector<vector<int>>&vis,char** arr,int n,int m){
+    int drow[]={-1,0,1,0};
+    int dcol[]={0,1,0,-1};
+    vis[row][col]=1;
+     for(int i=0;i<4;i++){
+            int nrow=row+drow[i];
+            int ncol=col+dcol[i];
+            if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m &&
+                !vis[nrow][ncol] && arr[nrow][ncol] == 'O') {
+              dfs(nrow, ncol, vis, arr, n, m);
+            }
+     }
+}
+void replaceOWithX(char** arr, int n, int  m)
+{
+    vector<vector<int>>vis(n,vector<int>(m,0));
+    // traversing first and last row 
+    for(int i=0;i<m;i++){
+        // first row
+        if(!vis[0][i] && arr[0][i]=='O'){
+            dfs(0,i,vis,arr,n,m);
+        }
+        // last row
+        if(!vis[n-1][i] && arr[n-1][i]=='O'){
+            dfs(n-1,i,vis,arr,n,m);
+        }
+    }
+    // traversing first and last column 
+    for(int i=0;i<n;i++){
+        if(!vis[i][0] && arr[i][0]=='O'){
+            dfs(i,0,vis,arr,n,m);
+        }
+        if(!vis[i][m-1] && arr[i][m-1]=='O'){
+            dfs(i,m-1,vis,arr,n,m);
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(!vis[i][j] && arr[i][j]=='O'){
+                arr[i][j]='X';
+            }
+        }
+    }
+}
