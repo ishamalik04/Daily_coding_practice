@@ -1,0 +1,43 @@
+Problem statement
+You are given a directed graph having ‘N’ nodes. A matrix ‘EDGES’ of size M x 2 is given which represents the ‘M’ edges
+such that there is an edge directed from node EDGES[i][0] to node EDGES[i][1].
+
+Find whether the graph contains a cycle or not, return true if a cycle is present in the given directed graph else return false.
+
+#include<bits/stdc++.h>
+int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
+  vector<int>adj[n+1];
+  int m=edges.size();
+    for(auto it:edges){
+       adj[it.first].push_back(it.second);
+    }
+    int indegree[n+1]={0};
+    for(int i=1;i<=n;i++){
+        for(auto it:adj[i]){
+            indegree[it]++;
+        }
+    }
+    queue<int>q;
+    for(int i=1;i<=n;i++){
+        if(indegree[i]==0){
+            q.push(i);
+        }
+    }
+    vector<int>topo;
+    while(!q.empty()){
+        int node=q.front();
+        q.pop();
+        topo.push_back(node);
+        for(auto it:adj[node]){
+            indegree[it]--;
+            if(indegree[it]==0){
+                q.push(it);
+            }
+        }
+    }
+    if(topo.size()==n){
+      return 0;
+    }else{
+      return 1;
+    }
+}
