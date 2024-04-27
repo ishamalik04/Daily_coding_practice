@@ -1,0 +1,51 @@
+Problem statement
+You have been given ‘N’ courses and some courses may have prerequisites.Now consider a matrix ‘PREREQUISITES’ of size 'M' x 2 which represents
+that you must complete the course 'PREREQUISITES[i][1]' before the course 'PREREQUISITES[i][0]'.
+Your task is to return the order of courses you should take to finish all courses.
+Note:
+If it is impossible to finish all courses, return an empty array. If there are multiple answers, return any one.
+For example:
+Input:
+3 2
+1 2
+2 3
+There are three courses to take. To start with, First course 3 is taken. Then course 2 is taken for which course 3 must be completed. 
+At last course 1 is taken for which course 2 must be completed. So the correct course order is [3,2,1].  
+
+vector<int> findSchedule(int numCourses, vector<pair<int, int>> &prerequisites)
+{
+    vector<int>adj[numCourses+1];
+    for(auto it:prerequisites){
+        adj[it.second].push_back(it.first);
+    }
+    int indegree[numCourses+1]={0};
+    for(int i=1;i<=numCourses;i++){
+        for(auto it:adj[i]){
+            indegree[it]++;
+        }
+    }
+    queue<int>q;
+    for(int i=1;i<=numCourses;i++){
+        if(indegree[i]==0){
+            q.push(i);
+        }
+    }
+    vector<int>topo;
+    while(!q.empty()){
+        int node=q.front();
+        q.pop();
+        topo.push_back(node);
+        for(auto it:adj[node]){
+            indegree[it]--;
+            if(indegree[it]==0){
+                q.push(it);
+            }
+        }
+    }
+    if(topo.size()==numCourses){
+        return topo;
+    }
+    else{
+        return {};
+    }
+}
