@@ -1,0 +1,33 @@
+Problem statement
+Given a DAG(direct acyclic graph), print Topological Sorting of a given graph
+
+#include<stack>
+void dfs(int node,int visited[],stack<int>&st,vector<int> adj[]){
+    visited[node]=1;
+    for(auto it:adj[node]){
+        if(!visited[it]){
+            dfs(it,visited,st,adj);
+        }
+    }
+    st.push(node);
+}
+
+vector<int> topologicalSort(vector<vector<int>> &graph, int edges, int nodes) {
+   int visited[nodes]={0};
+   stack<int>st;
+   vector<int>adj[nodes];
+   for(auto it:graph){
+       adj[it[0]].push_back(it[1]);
+   }
+   for(int i=0;i<nodes;i++){
+       if(!visited[i]){
+           dfs(i,visited,st,adj);
+       }
+   }
+   vector<int>topo;
+   while(!st.empty()){
+       topo.push_back(st.top());
+       st.pop();
+   }
+   return topo;
+}
