@@ -1,0 +1,51 @@
+Problem statement
+You are given a directed acyclic graph of 'N' vertices(0 to 'N' - 1) and 'M' weighted edges.
+
+Return an array that stores the distance(sum of weights) of the shortest path from vertex 0 to all vertices,
+and if it is impossible to reach any vertex, then assign -1 as distance.
+
+void topoSort(int node,int visited[],stack<int>&st,vector<pair<int,int>> adj[]){
+    visited[node]=1;
+    for(auto it:adj[node]){
+        if(!visited[it.first]){
+            topoSort(it.first,visited,st,adj);
+        }
+    }
+    st.push(node);
+}
+vector<int> shortestPathInDAG(int n, int m, vector<vector<int>> &edges)
+{
+    vector<pair<int,int>>adj[n];
+    for(auto it:edges){
+        int u = it[0];
+        int v = it[1];
+        int w = it[2];
+        adj[u].push_back({v, w});
+    }
+    stack<int>st;
+    int vis[n+1]={0};
+    for(int i=0;i<n;i++){
+        if(!vis[i]){
+            topoSort(i,vis,st,adj);
+        }
+    }
+    vector<int>dist(n,1e9);
+    dist[0]=0;
+    while(!st.empty()){
+        int node=st.top();
+        st.pop();
+        for(auto it:adj[node]){
+            int v=it.first;
+            int wt=it.second;
+            if(dist[node]+wt<dist[v]){
+                dist[v]=dist[node]+wt;
+            }
+        }
+    }
+    for(int i=0;i<n;i++){
+        if(dist[i]==1e9){
+            dist[i]=-1;
+        }
+    }
+    return dist;
+}
