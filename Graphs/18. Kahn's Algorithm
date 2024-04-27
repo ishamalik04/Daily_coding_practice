@@ -1,0 +1,34 @@
+Problem statement
+Given a DAG(direct acyclic graph), print Topological Sorting of a given graph
+
+vector<int>topologicalSort(vector<vector<int>>&graph,int edges,int nodes){
+    vector<int>adj[nodes];
+    for(auto it:graph){
+       adj[it[0]].push_back(it[1]);
+    }
+    int indegree[nodes]={0};
+    for(int i=0;i<nodes;i++){
+        for(auto it:adj[i]){
+            indegree[it]++;
+        }
+    }
+    queue<int>q;
+    for(int i=0;i<nodes;i++){
+        if(indegree[i]==0){
+            q.push(i);
+        }
+    }
+    vector<int>topo;
+    while(!q.empty()){
+        int node=q.front();
+        q.pop();
+        topo.push_back(node);
+        for(auto it:adj[node]){
+            indegree[it]--;
+            if(indegree[it]==0){
+                q.push(it);
+            }
+        }
+    }
+    return topo;
+}
