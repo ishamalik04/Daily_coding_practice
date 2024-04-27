@@ -1,0 +1,42 @@
+Problem statement
+Ninja has been given a matrix/list 'EDGES' denoting 'E' edges of a directed graph having ‘N’ nodes. 
+Ninja starts walking from some node (say ‘START’) in the graph along a directed edge of the graph.
+If Ninja reaches an end node (say ‘END’) (a node that has no outgoing directed edges), Ninja stops walking.
+
+Now a starting node ‘START’ is a safe node only if Ninja must eventually walk to an end node ‘END’. 
+More specifically, there must be a natural number ‘K’, so that Ninja must have stopped at an end node in less than ‘K’ steps for any choice of where to walk.
+
+
+#include <bits/stdc++.h> 
+vector<int> safeNodes(vector<vector<int>> &edges, int n, int e) {
+    vector<int>adjRev[n];
+    int indegree[n]={0};
+    for(int i=0;i<e;i++){
+        adjRev[edges[i][1]].push_back(edges[i][0]);
+    }
+    for(int i=0;i<n;i++){
+        for(auto it:adjRev[i]){
+            indegree[it]++;
+        }
+    }
+    vector<int>ans;
+    queue<int>q;
+    for(int i=0;i<n;i++){
+        if(indegree[i]==0){
+            q.push(i);
+        }
+    }
+    while(!q.empty()){
+        int node=q.front();
+        q.pop();
+        ans.push_back(node);
+        for(auto it:adjRev[node]){
+            indegree[it]--;
+            if(indegree[it]==0){
+                q.push(it);
+            }
+        }
+    }
+    sort(ans.begin(),ans.end());
+    return ans;
+}
