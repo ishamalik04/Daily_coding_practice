@@ -1,0 +1,60 @@
+Problem statement
+You have been given a sorted (lexical order) dictionary of an alien language.
+Write a function that returns the order of characters as a string in the alien language. 
+This dictionary will be given to you as an array of strings called 'dictionary', of size 'N'.
+Example :
+If the dictionary consists of the following words:-
+["caa", "aaa", "aab"], and 'K' is 3.
+Then, the order of the alphabet is -
+['c', 'a', 'b']
+Note:
+If the language consists of four letters, the four letters should be the starting four letters of the English language. 
+However, their order might differ in the alien language.
+
+#include<bits/stdc++.h>
+void dfs(int node,int vis[],stack<int>&st,vector<int>adj[]){
+    vis[node]=1;
+    for(auto i : adj[node]){
+        if(!vis[i]){
+            dfs(i,vis,st,adj);
+        }
+    }
+    st.push(node);
+}
+vector<int> topSort(int V,vector<int>adj[]){
+    int vis[V]={0};
+    stack<int>st;
+    for(int i=0;i<V;i++){
+        if(!vis[i]){
+            dfs(i,vis,st,adj);
+        }
+    }
+    vector<int>ans;
+    while(!st.empty()){
+        ans.push_back(st.top());
+        st.pop();
+    }
+    return ans;
+}
+string getAlienLanguage(vector<string> &s, int k)
+{
+    int n=s.size();
+    vector<int>adj[k];
+    for(int i=0;i<n-1;i++){
+        string s1=s[i];
+        string s2=s[i+1];
+        int len=min(s1.size(),s2.size());
+        for(int j=0;j<len;j++){
+            if(s1[j]!=s2[j]){
+                adj[s1[j]-'a'].push_back(s2[j]-'a');
+                break;
+            }
+        }
+    }
+    vector<int>topo=topSort(k,adj);
+    string ans="";
+    for(auto it:topo){
+        ans=ans+char(it+'a');
+    }
+    return ans;
+}
