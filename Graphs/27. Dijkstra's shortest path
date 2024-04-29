@@ -1,0 +1,41 @@
+Problem statement
+You have been given an undirected, connected graph of ‘V’ vertices (labelled from 0 to V-1) and ‘E’ edges.
+Each edge connecting two nodes 'u' and 'v' has a weight denoting the distance between them.
+Your task is to find the shortest path distance from the source node 'S' to all the vertices.
+You have to return a list of integers denoting the shortest distance between each vertex and source vertex 'S'.
+
+Note:
+
+1. There are no self-loops(an edge connecting the vertex to itself) in the given graph.
+
+2. There are no parallel edges i.e no two vertices are directly connected by more than 1 edge.
+
+
+vector<int> dijkstra(vector<vector<int>> &edge, int vertices, int edges, int source)
+{
+    // Write your code here.
+    // 'edge' contains {u, v, distance} vectors.
+    vector<vector<int>>adj[vertices];
+    for(auto it: edge){
+        adj[it[0]].push_back({it[1],it[2]});
+        adj[it[1]].push_back({it[0],it[2]});
+    }
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+    vector<int>dist(vertices,1e9);
+    dist[source]=0;
+    pq.push({0,source});
+    while(!pq.empty()){
+        int node=pq.top().second;
+        int length=pq.top().first;
+        pq.pop();
+        for(auto it:adj[node]){
+            int adjNode=it[0];
+            int adjDis=it[1];
+            if(length+adjDis<dist[adjNode]){
+                dist[adjNode]=length+adjDis;
+                pq.push({dist[adjNode],adjNode});
+            }
+        }
+    }
+    return dist;
+}
