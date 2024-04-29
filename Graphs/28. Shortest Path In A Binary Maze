@@ -1,0 +1,55 @@
+Problem statement
+Given a maze in the form of a binary rectangular matrix of size M*N, where each element can either be 0 or 1,
+the task is to find the length of the shortest path in a maze from a given source cell to a destination cell.
+
+The path can only be created out of a cell if its value is 1 and at any given moment, we can only move one step in one of the four directions.
+The valid moves are:
+
+Up: (x, y) -> (x - 1, y)
+Left: (x, y) -> (x, y - 1)
+Down: (x, y) -> (x + 1, y)
+Right: (x, y) -> (x, y + 1)
+If there is no path from a given source cell to a destination cell, return -1
+
+
+#include<bits/stdc++.h>
+int shortestPathBinaryMatrix(vector<vector<int>> &matrix, pair<int, int> src, pair<int, int> dest)
+{
+    // Write your code here
+    queue<pair<int,pair<int,int>>>q;
+    int n=matrix.size();
+    int m=matrix[0].size();
+    vector<vector<int>>dist(n,vector<int>(m,1e9));
+    // add this test case 1
+    if(matrix[src.first][src.second]==0) return -1;
+     // add this test case 2;  
+    if(src.first==dest.first and src.second==dest.second) return 0;
+    dist[src.first][src.second]=0;
+    q.push({0,{src.first,src.second}});
+    int dr[]={-1,0,1,0};
+    int dc[]={0,1,0,-1};
+    while(!q.empty()){
+        auto it=q.front();
+        q.pop();
+        int dis=it.first;
+        int r=it.second.first;
+        int c=it.second.second;
+        for(int i=0;i<4;i++){
+            int newr=r+dr[i];
+            int newc=c+dc[i];
+            if(newr>=0 && newc>=0 && newr<n && newc<m && matrix[newr][newc]==1 && dis+1<dist[newr][newc]){
+                dist[newr][newc]=1+dis;
+                if(newr==dest.first && newc==dest.second){
+                    return dis+1;
+                }
+                q.push({1+dis,{newr,newc}});
+                    
+                
+            }
+            if(newr==dest.first && newc==dest.second) return dis+1;
+           
+        }
+    }
+    return -1;
+}
+
