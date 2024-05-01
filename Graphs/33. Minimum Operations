@@ -1,0 +1,27 @@
+Problem statement
+You are given an array 'A' of length 'N' and integers 'start' and 'end'. In one operation,
+you can multiply 'start' by any element of 'A' and take modulo with ‘mod’. In this problem, 'mod' is 10^3.
+Return the minimum number of operations required to make 'start' equal to 'end'. If it is not possible, then return -1.
+
+int minimumOperations(int n, int start, int end, vector<int> &a)
+{
+    queue<pair<int,int>>q;
+    q.push({start,0});
+    vector<int>dist(100000,1e9);
+    dist[start]=0;
+    int mod=1000;
+    while(!q.empty()){
+        int node=q.front().first;
+        int steps=q.front().second;
+        q.pop();
+        if(node==end) return steps;
+        for(auto it:a){
+            int num=(it*node)%mod;
+            if(steps+1<dist[num]){
+                dist[num]=steps+1;
+                q.push({num,steps+1});
+            }
+        }
+    }
+    return -1;
+}
