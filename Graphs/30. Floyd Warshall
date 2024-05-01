@@ -1,0 +1,30 @@
+Problem statement
+You have been given a directed weighted graph of ‘N’ vertices labeled from 1 to 'N' and ‘M’ edges.
+Each edge connecting two nodes 'u' and 'v' has a weight 'w' denoting the distance between them.
+
+Your task is to find the length of the shortest path between the ‘src’ and ‘dest’ vertex given to you in the graph using Flloyd warshall’s algorithm.
+The graph may contain negatively weighted edges.
+
+
+int floydWarshall(int n, int m, int src, int dest, vector<vector<int>> &edges) {
+    // creating adjacency matrix 
+    vector<vector<int>>adj(n+1,vector<int>(n+1,1e9));
+    for(int i=0;i<edges.size();i++){
+        int u=edges[i][0];
+        int v=edges[i][1];
+        int wt=edges[i][2];
+        adj[u][v]=wt;
+    }
+    for(int i=1;i<=n;i++){
+        adj[i][i]=0;
+    }
+    for(int k=1;k<=n;k++){
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=n;j++){
+                if(adj[i][k] != 1e9 && adj[k][j] != 1e9)
+                adj[i][j]=min(adj[i][j],adj[i][k]+adj[k][j]);
+            }
+        }
+    }
+    return adj[src][dest];
+}
