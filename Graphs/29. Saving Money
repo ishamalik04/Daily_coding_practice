@@ -1,0 +1,35 @@
+Problem statement
+Ninja likes to travel a lot, but at the same time, he wants to save as much money as possible.
+There are ‘N’ Stations connected by ‘M’ Trains. Each train that he boards starts from station ‘A’ and reaches destination station ‘B’ with a ticket price ‘P’.
+Your task is to return the cheapest price from the given ‘source’ to ‘destination’ with up to ‘K’ stops. If there is no such route, return ‘-1’.
+
+int savingMoney(int n, int source, int destination, int K, vector<vector<int>> &trains)
+{
+    vector<pair<int,int>>adj[n];
+    for(auto it:trains){
+        adj[it[0]].push_back({it[1],it[2]});
+    }
+    queue<pair<int,pair<int,int>>>q;
+    q.push({0,{source,0}});
+    vector<int>dist(n,1e9);
+    dist[source]=0;
+    if(source == destination) return 0;
+    while(!q.empty()){
+        auto it=q.front();
+        q.pop();
+        int stop=it.first;
+        int node=it.second.first;
+        int cost=it.second.second;
+        if(stop>K) continue;
+        for(auto iter:adj[node]){
+            int adjNode=iter.first;
+            int edw=iter.second;
+            if(cost+edw<dist[adjNode] ){
+                dist[adjNode]=cost+edw;
+                q.push({stop+1,{adjNode,dist[adjNode]}});
+            }
+        }
+    }
+    if(dist[destination]==1e9) return -1;
+    return dist[destination];
+}
