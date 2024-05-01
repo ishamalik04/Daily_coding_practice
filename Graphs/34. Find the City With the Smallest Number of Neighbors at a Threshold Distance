@@ -1,0 +1,46 @@
+Problem statement
+You are given ‘N’ cities numbered from 0 to N-1 and ‘M’ edges. These cities are connected with undirected weighted edges.
+You are also given a positive integer, ‘distanceThreshold’.
+Your task is to find the ‘city’ to which the minimum number of cities are reachable through some path whose distance is no more than the given ‘distanceThreshold’.
+Note:
+1. If multiple such cities exist, you have to find the city with the greatest number.
+2. The distance of a path connecting two cities, ‘U’ and ‘V’, is the sum of the weight of the edges along that path.
+3. The distance between two cities is the minimum of all possible path distances
+
+
+#include <bits/stdc++.h> 
+int findTheCity(int n, vector<vector<int>> &edges, int distanceThreshold) 
+{
+	vector<vector<int>>dist(n,vector<int>(n,INT_MAX));
+	for(auto it:edges){
+		dist[it[0]][it[1]]=it[2];
+		dist[it[1]][it[0]]=it[2];
+	}
+    for (int i = 0; i < n; i++) {
+            dist[i][i] = 0;
+    }
+    
+    for(int k=0;k<n;k++){
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n;j++){
+				if(dist[i][k]==INT_MAX || dist[k][j]==INT_MAX) continue;
+					dist[i][j]=min(dist[i][j],dist[i][k]+dist[k][j]);
+			}
+		}
+	}
+	int cntCity=n,cityNo=-1;
+	for(int city=0;city<n;city++){
+		int cnt=0;
+		for(int adjCity=0;adjCity<n;adjCity++){
+			if(dist[city][adjCity]<=distanceThreshold){
+				cnt++;
+			}
+		}
+		if(cnt<=cntCity){
+			cntCity=cnt;
+			cityNo=city;
+		}
+	}
+	return cityNo;
+}
+
