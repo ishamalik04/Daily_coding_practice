@@ -1,0 +1,30 @@
+Problem statement
+You are given a number 'N' and its reverse 'R'.
+Return the number raised to the power of its own reverse. As answers can be very large, print the result modulo '10^9 + 7'.0
+For Example:
+
+For 'N' = 20, 'R' = 2
+The answer is 400 since 20^2 as the reverse of 20 is 2.
+
+
+int mod=1e9+7;
+
+int solve(int a,int b){
+if(b==1)
+return a;
+if(b==0)
+return 1;
+   long long  ans=solve(a,b/2) %mod;
+   ans=(ans*ans)%mod;
+    if(b%2==0){
+        ans=ans%mod;
+    }
+    else{
+        ans=a*ans%mod;
+    }
+    return ans;
+}
+int power(int N, int R){
+   // Write your code here.
+    solve(N,R);
+}
