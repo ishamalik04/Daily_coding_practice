@@ -1,0 +1,84 @@
+The disjoint Set data structure is generally used for dynamic graphs. 
+A dynamic graph generally refers to a graph that keeps on changing its configuration. 
+
+Functionalities of Disjoint Set data structure:
+The disjoint set data structure generally provides two types of functionalities:
+
+Finding the parent for a particular node (findPar())
+Union (in broad terms this method basically adds an edge between two nodes)
+Union by rank
+Union by size
+
+Rank:
+The rank of a node generally refers to the distance (the number of nodes including the leaf node) between
+the furthest leaf node and the current node. Basically rank includes all the nodes beneath the current node.
+
+Ultimate parent:
+The parent of a node generally refers to the node right above that particular node. But the ultimate parent refers to the topmost node or the root node.
+
+Union by size:
+This is as same as the Union by rank method except this method uses the size to compare the components while connecting. That is why we need a ‘size’ array of size N(no. of nodes) instead of a rank array. 
+The size array will be storing the size for each particular node i.e. size[i] will be the size of the component starting from node i.
+Typically, the size of a node refers to the number of nodes that are connected to it.
+
+
+
+
+
+class DisjointSet{
+	vector<int>parent,rank,size;
+	public:
+	DisjointSet(int n){
+		rank.resize(n+1,0);
+        size.resize(n+1,1);
+		parent.resize(n+1);
+
+		for(int i=0;i<n;i++){
+			parent[i]=i;
+			size[i]=1;
+		}
+	}
+
+	int findUpar(int node){
+		if(node==parent[node]){
+			return node;
+		}
+		// compressing path
+		return parent[node]=findUpar(parent[node]);
+	}
+
+	void unionByRank(int u,int v){
+		// if ultimate parent same , don't join
+		int ulp_u=findUpar(u);
+		int ulp_v=findUpar(v);
+
+		if(ulp_u==ulp_v){
+			return;
+		}
+		if(rank[ulp_u]<rank[ulp_v]){
+			parent[ulp_u]=ulp_v;
+		}else if(rank[ulp_v]<rank[ulp_u]){
+			parent[ulp_v]=ulp_u;
+		}else{
+			parent[ulp_v]=ulp_u;
+			rank[ulp_u]++;
+		}
+	}
+
+	void unionBySize(int u,int v){
+		// if ultimate parent same , don't join
+		int ulp_u=findUpar(u);
+		int ulp_v=findUpar(v);
+
+		if(ulp_u==ulp_v){
+			return;
+		}
+		if(size[ulp_u]<rank[ulp_v]){
+			parent[ulp_u]=ulp_v;
+			size[ulp_v]+=size[ulp_u];
+		}else{
+			parent[ulp_v]=ulp_u;
+			size[ulp_u]+=size[ulp_v];
+		}
+	}
+};
