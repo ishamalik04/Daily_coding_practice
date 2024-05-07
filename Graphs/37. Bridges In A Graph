@@ -1,0 +1,35 @@
+Problem statement
+Given an undirected graph of V vertices and E edges. Your task is to find all the bridges in the given undirected graph. A bridge in any graph
+is defined as an edge which, when removed,makes the graph disconnected (or more precisely, increases the number of connected components in the graph).
+
+#include<bits/stdc++.h>
+void dfs(int node,int parent,vector<int>&vis,vector<int>adj[],int tin[],int low[],int timer,vector<vector<int>>&bridges){
+    vis[node]=1;
+    tin[node]=low[node]=timer++;
+    for(auto it:adj[node]){
+        if(it==parent) continue;
+        if(vis[it]==0){
+            dfs(it,node,vis,adj,tin,low,timer,bridges);
+            low[node]=min(low[it],low[node]);
+            if(low[it]>tin[node]){
+                bridges.push_back({it,node});
+            }
+        }
+        else{
+            low[node]=min(low[it],low[node]);
+        }
+    }
+}
+vector<vector<int>> findBridges(vector<vector<int>> &edges, int v, int e) {
+    vector<int>adj[v];
+    for(auto it:edges){
+        adj[it[0]].push_back(it[1]);
+        adj[it[1]].push_back(it[0]);
+    }
+    vector<int>vis(v,0);
+    int tin[v];
+    int low[v];
+    vector<vector<int>>bridges;
+    dfs(0,-1,vis,adj,tin,low,0,bridges);
+    return bridges;
+}
