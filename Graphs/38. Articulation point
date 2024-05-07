@@ -1,0 +1,66 @@
+Problem statement
+You are given an undirected unweighted graph and you are supposed to find all articulation in the graph.
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void dfs(int timer,int node,int parent,vector<int>adj[],int low[],int tin[],vector<int>&visited,vector<int>&mark){
+    visited[node]=1;
+    low[node]=tin[node]=timer++;
+    int child=0;
+    for(auto it:adj[node]){
+        if(it==parent) continue;
+        if(!visited[it]){
+            dfs(timer,it,node,adj,low,tin,visited,mark);
+            low[node]=min(low[node],low[it]);
+            if(low[it]>=tin[node] && parent!=-1){
+                mark[node]=1;
+            }
+            child++;
+        }
+        else{
+            low[node]=min(low[node],tin[it]);
+        }
+    }
+    if(parent==-1 &&child>1){
+        mark[node]=1;
+    }
+}
+
+void ap(vector<int>adj[],int n){
+    int count=0;
+    vector<int>visited(n,0);
+    int tin[n],low[n];
+    vector<int>mark(n,-1);
+    for(int i=0;i<n;i++){
+        if(!visited[i]){
+            dfs(0,i,-1,adj,low,tin,visited,mark);
+        }
+    }
+    for(int i=0;i<n;i++){
+        if(mark[i]==1){
+            cout<<i<<" ";
+        }
+    }
+    cout<<endl;
+}
+int main(){
+    
+    // write your code here
+    int t;
+    cin>>t;
+    while(t--){
+        int n,e;
+        cin>>n>>e;
+        vector<int>edges[n+1];
+        int a,b;
+        for(int i=0;i<e;i++){
+            cin>>a>>b;
+            edges[a].push_back(b);
+            edges[b].push_back(a);
+        }
+        ap(edges,n+1);
+    }
+    return 0;
+}
