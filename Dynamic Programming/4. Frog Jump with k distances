@@ -1,0 +1,49 @@
+There are n stones and an array of heights and Geek is standing at stone 1 and can jump to one of the following:
+Stone i+1, i+2, ... i+k stone and cost will be [hi-hj] is incurred, where j is the stone to land on.
+Find the minimum possible total cost incurred before the Geek reaches Stone N.
+Example 1:
+Input:
+n = 5, k = 3
+heights = {10, 30, 40, 50, 20}
+Output:
+30
+Explanation:
+Geek will follow the path 1->2->5, the total cost 
+would be | 10-30| + |30-20| = 30, which is minimum
+
+class Solution {
+  public:
+//   memoisation
+    /*int solve(int n,int k,vector<int>&height,vector<int>&dp){
+        if(n==0) return 0;
+        int minStep=INT_MAX;
+        if(dp[n]!=-1) return dp[n];
+        for(int i=1;i<=k;i++){
+            if((n-i)>=0){
+                int jump=solve(n-i,k,height,dp)+abs(height[n]-height[n-i]);
+                minStep=min(minStep,jump);
+            }
+        }
+        return dp[n]=minStep;
+    }
+    int minimizeCost(vector<int>& height, int n, int k) {
+        vector<int>dp(n+1,-1);
+        return solve(n-1,k,height,dp);
+    }*/
+//  tabulation
+    int minimizeCost(vector<int>& height, int n, int k) {
+        vector<int>dp(n+1,-1);
+        dp[0]=0;
+        for(int i=1;i<n;i++){
+            int minStep=INT_MAX;
+            for(int j=1;j<=k;j++){
+                if((i-j)>=0){
+                int jump=dp[i-j]+abs(height[i]-height[i-j]);
+                minStep=min(minStep,jump);
+                }
+            }
+            dp[i]=minStep;
+        }
+        return dp[n-1];
+    }
+};
