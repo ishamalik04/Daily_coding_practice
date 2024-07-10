@@ -1,0 +1,41 @@
+A parentheses string is valid if and only if:
+
+It is the empty string,
+It can be written as AB (A concatenated with B), where A and B are valid strings, or
+It can be written as (A), where A is a valid string.
+You are given a parentheses string s. In one move, you can insert a parenthesis at any position of the string.
+
+For example, if s = "()))", you can insert an opening parenthesis to be "(()))" or a closing parenthesis to be "())))".
+Return the minimum number of moves required to make s valid.
+
+ 
+Example 1:
+Input: s = "())"
+Output: 1
+
+Example 2:
+Input: s = "((("
+Output: 3
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        string result="";
+        int i=0;
+        while(i<s.size()){
+        while(i<s.size() && s[i]==' ')
+        i++;
+        if (i>=s.size()) break;
+        int j=i+1;
+        while(j<s.size() && s[j]!=' ')
+        j++;
+        string sub=s.substr(i,j-i);
+        if(result.size()==0)
+        result=sub;
+        else
+        result=sub+" "+result;
+        i=j+1;
+        }
+        return result;
+    }
+};
