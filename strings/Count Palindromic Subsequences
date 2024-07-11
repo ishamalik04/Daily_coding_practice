@@ -1,0 +1,42 @@
+Given a string str of length N, you have to find number of palindromic subsequence (need not necessarily be distinct) present in the string str.
+Note: You have to return the answer module 109+7;
+ 
+Example 1:
+Input: 
+Str = "abcd"
+Output: 
+4
+Explanation:
+palindromic subsequence are : "a" ,"b", "c" ,"d"
+
+Example 2:
+Input: 
+Str = "aab"
+Output: 
+4
+Explanation:
+palindromic subsequence are :"a", "a", "b", "aa"
+
+class Solution{
+    public:
+    long long int  f(int i,int j,string&s,vector<vector<long long int>>&dp){
+        int mod=1e9+7;
+        if(i==j) return 1;
+        if(i>j) return 0;
+        if(dp[i][j]!=-1) return dp[i][j];
+        if(s[i]==s[j]){
+            return dp[i][j]=(1+f(i+1,j,s,dp)+f(i,j-1,s,dp))%mod;;
+        }
+        else{
+        return dp[i][j]=((f(i+1,j,s,dp)+f(i,j-1,s,dp)-f(i+1,j-1,s,dp))%mod+mod)%mod;
+        }
+    }
+    
+    long long int  countPS(string str)
+    {
+       int n=str.size();
+       vector<vector<long long int>>dp(n,vector<long long int>(n,-1));
+       return f(0,n-1,str,dp);
+    }
+     
+};
