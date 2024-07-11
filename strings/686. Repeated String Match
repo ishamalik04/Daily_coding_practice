@@ -1,0 +1,82 @@
+Given two strings a and b, return the minimum number of times you should repeat string a so that string b is a substring of it.
+If it is impossible for b​​​​​​ to be a substring of a after repeating it, return -1.
+Notice: string "abc" repeated 0 times is "", repeated 1 time is "abc" and repeated 2 times is "abcabc".
+
+ 
+Example 1:
+Input: a = "abcd", b = "cdabcdab"
+Output: 3
+Explanation: We return 3 because by repeating a three times "abcdabcdabcd", b is a substring of it.
+
+Example 2:
+Input: a = "a", b = "aa"
+Output: 2
+
+class Solution {
+public:
+    void lpsFind(vector<int>&lps,string s){
+        int pre=0,suff=1;
+        while(suff<s.size()){
+            if(s[pre]==s[suff]){
+                lps[suff]=pre+1;
+                pre++;
+                suff++;
+            }
+            else{
+                if(pre==0){
+                    lps[suff]=0;
+                    suff++;
+                }
+                else{
+                    pre=lps[pre-1];
+                }
+            }
+        }
+        
+    }
+    int strStr(string haystack, string needle) {
+        vector<int>lps(needle.size(),0);
+        lpsFind(lps,needle);
+        int first=0,second=0;
+        while(first<haystack.size() && second<needle.size()){
+            // match
+            if(haystack[first]==needle[second]){
+                first++;
+                second++;
+            }
+            // not matched
+            else{
+                if(second==0){
+                    first++;
+                }
+                else{
+                    second=lps[second-1];
+                }
+            }
+        }
+            // answer exist
+            if(second==needle.size())
+            return 1;
+            return -1;
+        
+    }
+    int repeatedStringMatch(string a, string b) {
+        if(a==b)
+        return 1;
+        int repeat=1;
+        string temp=a;
+        while(temp.size()<b.size()){
+            temp+=a;
+            repeat++;
+        }
+        // KMP pattern search
+        if(strStr(temp,b)==1)
+        return repeat;
+
+        if(strStr(temp+a,b)==1)
+        return repeat+1;
+
+        return -1; 
+
+    }
+};
