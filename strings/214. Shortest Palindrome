@@ -1,0 +1,45 @@
+You are given a string s. You can convert s to a palindrome by adding characters in front of it.
+Return the shortest palindrome you can find by performing this transformation.
+
+Example 1:
+Input: s = "aacecaaa"
+Output: "aaacecaaa"
+
+Example 2:
+Input: s = "abcd"
+Output: "dcbabcd"
+
+class Solution {
+public:
+void lpsFind(vector<int>&lps,string s){
+        int pre=0,suff=1;
+        while(suff<s.size()){
+            if(s[pre]==s[suff]){
+                lps[suff]=pre+1;
+                pre++;
+                suff++;
+            }
+            else{
+                if(pre==0){
+                    lps[suff]=0;
+                    suff++;
+                }
+                else{
+                    pre=lps[pre-1];
+                }
+            }
+        }
+        
+    }
+    string shortestPalindrome(string s) {
+        string t=s;
+        reverse(t.begin(),t.end());
+        string a= s+'#'+t;
+        vector<int>lps(a.size(),0);
+        lpsFind(lps,a);
+        int i=lps[a.size()-1];
+        string temp=s.substr(i);
+        reverse(temp.begin(),temp.end());
+        return temp+s;
+    }
+};
