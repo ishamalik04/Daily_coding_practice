@@ -1,0 +1,57 @@
+Minimum sum partition
+Difficulty: HardAccuracy: 38.97%Submissions: 145K+Points: 8
+Given an array arr of size n containing non-negative integers, the task is to divide it into two sets S1 and S2 such that the
+absolute difference between their sums is minimum and find the minimum difference
+
+Example 1:
+Input: N = 4, arr[] = {1, 6, 11, 5} 
+Output: 1
+Explanation: 
+Subset1 = {1, 5, 6}, sum of Subset1 = 12 
+Subset2 = {11}, sum of Subset2 = 11   
+
+Example 2:
+Input: N = 2, arr[] = {1, 4}
+Output: 3
+Explanation: 
+Subset1 = {1}, sum of Subset1 = 1
+Subset2 = {4}, sum of Subset2 = 4
+
+class Solution{
+
+  public:
+	int minDifference(int nums[], int n)  { 
+	    
+        int totalSum=0;
+        for(int i=0;i<n;i++){
+        totalSum+=nums[i];
+        }
+        vector<vector<bool>> dp(n, vector<bool>(totalSum+1, false));
+        for(int i=0;i<n;i++)
+        dp[i][0]=true;
+
+        if(nums[0]<=totalSum)
+        dp[0][nums[0]]=true;
+        for(int index=1;index<n;index++){
+            for(int target=1;target<=totalSum;target++){
+                bool notTake=dp[index-1][target];
+                bool take=false;
+                if(nums[index]<=target){
+                    take=dp[index-1][target-nums[index]];
+                }
+                dp[index][target]=take||notTake;
+            }
+        }
+
+        int mini=1e9;
+        for(int s1=0;s1<=totalSum;s1++){
+            if(dp[n-1][s1]==true){
+                int diff = abs(s1 - (totalSum - s1));
+                mini = min(mini, diff);
+            }
+        }
+        return mini;
+    }
+
+	
+};
