@@ -1,0 +1,30 @@
+Given an array a[ ] of n integers, find the Length of the Longest Strictly Increasing Subsequence.
+A sequence of numbers is called "strictly increasing" when each term in the sequence is smaller than the term that comes after it.
+
+Example 1:
+Input: n = 6, a[ ] = {5,8,3,7,9,1}
+Output: 3
+Explanation: There are more than one LIS in this array.  
+One such Longest increasing subsequence is {5,7,9}.
+
+
+class Solution
+{
+    public:
+    //Function to find length of longest increasing subsequence.
+    int longestSubsequence(int n, int a[])
+    {
+       vector<int>temp;
+       temp.push_back(a[0]);
+       for(int i=1;i<n;i++){
+           if(a[i]>temp.back()){
+               temp.push_back(a[i]);
+           }
+           else{
+               int index=lower_bound(temp.begin(),temp.end(),a[i])-temp.begin();
+               temp[index]=a[i];
+           }
+       }
+       return temp.size();
+    }
+};
