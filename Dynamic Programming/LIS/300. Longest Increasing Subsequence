@@ -1,0 +1,52 @@
+Given an integer array nums, return the length of the longest strictly increasing 
+subsequence
+
+Example 1:
+Input: nums = [10,9,2,5,3,7,101,18]
+Output: 4
+Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+
+Example 2:
+Input: nums = [0,1,0,3,2,3]
+Output: 4
+
+Example 3:
+Input: nums = [7,7,7,7,7,7,7]
+Output: 1
+
+class Solution {
+public:
+
+    // Memoisation
+    int f(int index,int prevIndex,vector<int>&arr,int n,vector<vector<int>>&dp){
+        if(index==n) return 0;
+        if(dp[index][prevIndex+1]!=-1) return dp[index][prevIndex+1];
+        int len=0+f(index+1,prevIndex,arr,n,dp);
+        if(prevIndex==-1 || arr[index]>arr[prevIndex]){
+            len=max(len,1+f(index+1,index,arr,n,dp));
+        }
+        return dp[index][prevIndex+1]=len;
+    }
+
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        vector<vector<int>>dp(n,vector<int>(n+1,-1));
+        return f(0,-1,nums,n,dp);
+    }
+   
+    // Tabulation
+    int lengthOfLIS(vector<int>& arr) {
+        int n=arr.size();
+        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+        for(int index=n-1;index>=0;index--){
+            for(int prevIndex=index-1;prevIndex>=-1;prevIndex--){
+                int len=0+dp[index+1][prevIndex+1];
+                if(prevIndex==-1 || arr[index]>arr[prevIndex]){
+                    len=max(len,1+dp[index+1][index+1]);
+                }
+                dp[index][prevIndex+1]=len;
+            }
+        }
+        return dp[0][-1+1];
+    }
+};
