@@ -1,0 +1,29 @@
+A boolean expression is an expression that evaluates to either true or false. It can be in one of the following shapes:
+'t' that evaluates to true.
+'f' that evaluates to false.
+'!(subExpr)' that evaluates to the logical NOT of the inner expression subExpr.
+'&(subExpr1, subExpr2, ..., subExprn)' that evaluates to the logical AND of the inner expressions subExpr1, subExpr2, ..., subExprn where n >= 1.
+'|(subExpr1, subExpr2, ..., subExprn)' that evaluates to the logical OR of the inner expressions subExpr1, subExpr2, ..., subExprn where n >= 1.
+Given a string expression that represents a boolean expression, return the evaluation of that expression.
+It is guaranteed that the given expression is valid and follows the given rules.
+
+class Solution {
+public:
+    int f(int i,int j,vector<int>&nums,vector<vector<int>>&dp){
+        if(i>j) return 0;
+        if(dp[i][j]!=-1) return dp[i][j];
+        int maxi=INT_MIN;
+        for(int index=i;index<=j;index++){
+            int cost=nums[i-1]*nums[index]*nums[j+1]+f(i,index-1,nums,dp)+f(index+1,j,nums,dp);
+            maxi=max(maxi,cost);
+        }
+        return dp[i][j]=maxi;
+    }
+    int maxCoins(vector<int>& nums) {
+        int n=nums.size();
+        nums.push_back(1);
+        nums.insert(nums.begin(),1);
+        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+        return f(1,n,nums,dp);
+    }
+};
