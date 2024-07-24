@@ -1,0 +1,39 @@
+Max sum in sub-arrays
+Difficulty: EasyAccuracy: 43.26%Submissions: 50K+Points: 2
+Given an array arr[], with 0-based indexing, select any two indexes, i and j such that i < j. From the subarray arr[i...j], 
+select the two minimum numbers and add them, you will get the score for that subarray. Return the maximum possible score across all the subarrays of array arr[].
+
+Examples :
+
+Input : arr[] = [4, 3, 1, 5, 6]
+Output : 11
+Explanation : Subarrays with smallest and second smallest are:- [4, 3] smallest = 3,second smallest = 4
+[4, 3, 1] smallest = 1, second smallest = 3
+[4, 3, 1, 5] smallest = 1, second smallest = 3
+[4, 3, 1, 5, 6] smallest = 1, second smallest = 3
+[3, 1] smallest = 1, second smallest = 3
+[3, 1, 5] smallest = 1, second smallest = 3
+[3, 1, 5, 6] smallest = 1, second smallest = 3
+[1, 5] smallest = 1, second smallest = 5
+[1, 5, 6] smallest = 1, second smallest = 5
+[5, 6] smallest = 5, second smallest = 6
+Maximum sum among all above choices is, 5 + 6 = 11.
+Input : arr[] = [5, 4, 3, 1, 6] 
+Output : 9
+
+
+class Solution {
+  public:
+    // Function to find pair with maximum sum
+    int pairWithMaxSum(vector<int> &nums) {
+        long long sum=0,maxi=INT_MIN;
+        for(int i=0;i<nums.size();i++){
+            sum+=nums[i];
+            if(sum>maxi){
+                maxi=sum;
+            }
+            sum-=nums[i-1];
+        }
+        return maxi;
+    }
+};
