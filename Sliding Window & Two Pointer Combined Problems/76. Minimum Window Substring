@@ -1,0 +1,65 @@
+Given two strings s and t of lengths m and n respectively, return the minimum window 
+substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+The testcases will be generated such that the answer is unique.
+
+Example 1:
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+
+Example 2:
+Input: s = "a", t = "a"
+Output: "a"
+Explanation: The entire string s is the minimum window.
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        // brute
+        int minLen=1e9,startIndex=-1,cnt;
+        int n=s.size(),m=t.size();
+        int hash[256];
+        for(int i=0;i<n;i++){
+            fill(hash,hash+256,0),cnt=0;
+            for(int j=0;j<m;j++) hash[t[j]]++;
+            for(int j=i;j<n;j++){
+                if(hash[s[j]]>0) cnt++;
+                hash[s[j]]--;
+                if(cnt==m){
+                    if(j-i+1<minLen){
+                        minLen=j-i+1;
+                        startIndex=i;
+                        break;
+                    }
+                }
+            }
+        }
+        return startIndex == -1 ? "" : s.substr(startIndex,minLen);
+
+
+        // better
+
+        int hash[256];
+        fill(hash,hash+256,0);
+        int left=0,right=0,minLen=1e9,startIndex=-1,cnt=0;
+        int n=s.size(),m=t.size();
+        for(int j=0;j<m;j++) hash[t[j]]++;
+        while(right<n){
+            if(hash[s[right]]>0) cnt++;
+            hash[s[right]]--;
+            while(cnt==m && left<=right){
+                if(right-left+1<minLen){
+                    minLen=right-left+1;
+                    startIndex=left;
+                }
+                hash[s[left]]++;
+                if(hash[s[left]]>0){
+                    cnt--;
+                }
+                left++;
+            }
+            right++;
+        }
+        return startIndex == -1 ? "" : s.substr(startIndex,minLen);
+    }
+};
