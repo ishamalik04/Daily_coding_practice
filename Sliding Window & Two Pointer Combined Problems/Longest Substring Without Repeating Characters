@@ -1,0 +1,55 @@
+Given a string s, find the length of the longest 
+substring
+ without repeating characters.
+
+ 
+
+Example 1:
+
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+Example 2:
+
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        // brute
+        int maxLen=0,n=s.size();
+        int len;
+        for(int i=0;i<n;i++){
+            int hash[256]={0};
+            for(int j=i;j<n;j++){
+                if(hash[s[j]]==1) break;
+                len=j-i+1;
+                maxLen=max(maxLen,len);
+                hash[s[j]]=1;
+            }
+        }
+        return maxLen;
+
+
+        // better
+        int hash[256];
+        fill(hash,hash+256,-1);
+        int n=s.size(),left=0,right=0,maxLen=0;
+        while(right<n){
+            if(hash[s[right]]!=-1){
+                if(hash[s[right]]>=left){
+                    left=hash[s[right]]+1;
+                }
+            }
+            maxLen=max(maxLen,right-left+1);
+            hash[s[right]]=right;
+            right++;
+            
+        }
+        return maxLen;
+    }
+};
