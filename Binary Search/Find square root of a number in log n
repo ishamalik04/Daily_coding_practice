@@ -1,0 +1,51 @@
+Given an integer n, find the square root of n. If n is not a perfect square, then return the floor value.
+Floor value of any number is the greatest Integer which is less than or equal to that number
+
+Examples:
+
+Input: n = 5
+Output: 2
+Explanation: Since, 5 is not a perfect square, floor of square_root of 5 is 2.
+Input: n = 4
+Output: 2
+Explanation: Since, 4 is a perfect square, so its square root is 2.
+
+class Solution {
+  public:
+    long long int floorSqrt(long long int n) {
+        // Your code goes here
+        // brute force
+        
+        int ans=0;
+        for(long long i=1;i<=n;i++){
+            long long val=i*i;
+            if(val<=n){
+                ans=i;
+            }
+            else{
+                break;
+            }
+        }
+        return ans;
+        
+        // better using built in sqrt method
+        int ans=sqrt(n);
+        return ans;
+        
+        // optimal jusing binary search
+        int low=1,high=n;
+        while(low<=high){
+            long long mid=(low+high)/2;
+            long long val=mid*mid;
+            if(val<=(long long)(n)){
+                // eliminating left half
+                low=mid+1;
+            }
+            else{
+                // eliminating right half
+                high=mid-1;
+            }
+        }
+        return high;
+    }
+};
